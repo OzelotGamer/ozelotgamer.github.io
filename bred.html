@@ -8,14 +8,22 @@
 <script src="//cdn.jsdelivr.net/npm/eruda"></script>
 <script>eruda.init();</script> !-->
     <script>
-if(!localStorage.getItem("bred")){
-localStorage.setItem("bred", 0);
-}
-var bred = 0;
+      var bred = 0;
       var bredmulti = 1;
+if(!localStorage.getItem("bred")){
+localStorage.setItem("bred", bred);
+}
+      if(!localStorage.getItem("bredmulti")){
+localStorage.setItem("bredmulti", bredmulti);
+}
+      bred = localStorage.getItem("bred");
+bredmulti = localStorage.getItem("bredmulti");
+document.getElementById("bredcount").innerHTML = `bred: ${bred}`;
+
     function bredclick(){
       bred += bredmulti;
       document.getElementById("bredcount").innerHTML = `bred: ${bred}`;
+      localStorage.setItem("bred", bred);
     }
     </script>
 <style>
