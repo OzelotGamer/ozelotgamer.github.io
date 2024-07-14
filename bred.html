@@ -8,16 +8,29 @@
 <script src="//cdn.jsdelivr.net/npm/eruda"></script>
 <script>eruda.init();</script> !-->
     <script>
-
+if(!localStorage.getItem("bred")){
+localStorage.setItem("bred", 0);
+}
+var bred = 0;
+      var bredmulti = 1;
+    document.getElementById("bred").onclick = ()=>{
+      bred += bredmulti;
+      document.getElementById("bredcount").innerHTML = `bred: ${bred}`;
+    }
     </script>
 <style>
-background-image: url("https://cdn.jsdelivr.net/gh/OzelotGamer/ozelotgamer.github.io@5f5c83711762e631163e96c8cf3b5c0d52001c56/bred.gif");
+  #bred{
+position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+  }
     </style>
   </head>
   <body>
 <h1>bred</h1>
 <p>bred bred bred</p>
-<button onclick="alert(`bred`)">bred</button>
-<img src="https://cdn.jsdelivr.net/gh/OzelotGamer/ozelotgamer.github.io@5f5c83711762e631163e96c8cf3b5c0d52001c56/bred.gif"></img>
+    <p id="bredcount">bred:</p>
+<img id="bred" src="https://cdn.jsdelivr.net/gh/OzelotGamer/ozelotgamer.github.io@5f5c83711762e631163e96c8cf3b5c0d52001c56/bred.gif"></img>
   </body>
 </html>
