@@ -75,6 +75,13 @@ position: absolute;
   left: 50%;
   transform: translate(-50%, -50%);
 }
+#delpro{
+  position: absolute;
+  top: 100%;
+  left: 100%;
+  transform: translate(-100%, -100%);
+}
+
     </style>
   </head>
   <body>
@@ -86,12 +93,13 @@ position: absolute;
 <p>bred bred bred</p>
     <p id="bredcount">bred:</p>
 <img onclick="bredclick()" id="bred" src="https://cdn.jsdelivr.net/gh/OzelotGamer/ozelotgamer.github.io@5f5c83711762e631163e96c8cf3b5c0d52001c56/bred.gif"></img>
-      <div>
+      <div name="Shop">
 <h3>Upgrades</h3>
         <button class="1 upgrade" onclick="bredbuy(this.classList.item(0))"></button>
         <button class="5 upgrade" onclick="bredbuy(this.classList.item(0))"></button>
         <button class="10 upgrade" onclick="bredbuy(this.classList.item(0))"></button>
       </div>
+<button onclick="localStorage.clear(); location.reload()" id="delpro">Delete Progress</button>
     </div>
   </body>
 </html>
