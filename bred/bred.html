@@ -38,7 +38,7 @@ document.getElementById("load").style.display = "none";
     }
 
 function bredbuy(times){
-  if(bred >= bredmulticost * 1.2 * times){
+  if(bred >= bredmulticost * 1.2 * times || times == 1 && bred >= bredmulticost){
   for(i=0;i<parseInt(times);i++){
     bred -= bredmulticost;
       bredmulti *= 1.2;
@@ -88,7 +88,9 @@ position: absolute;
 <img onclick="bredclick()" id="bred" src="https://cdn.jsdelivr.net/gh/OzelotGamer/ozelotgamer.github.io@5f5c83711762e631163e96c8cf3b5c0d52001c56/bred.gif"></img>
       <div>
 <h3>Upgrades</h3>
-        <button class="1 upgrade" onclick="bredbuy(this.classList.item(0))">Upgrade * 1<br>Costs: 100</button>
+        <button class="1 upgrade" onclick="bredbuy(this.classList.item(0))"></button>
+        <button class="5 upgrade" onclick="bredbuy(this.classList.item(0))"></button>
+        <button class="10 upgrade" onclick="bredbuy(this.classList.item(0))"></button>
       </div>
     </div>
   </body>
