@@ -1,2 +1,3 @@
-# bred
-bred bred bred
+# OzelotGamer
+## Projects
+[bred](/bred/bred.html)
