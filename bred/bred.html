@@ -10,17 +10,24 @@
     <script>
       var bred = 0;
       var bredmulti = 1;
+      var bredmulticost = 100;
 if(!localStorage.getItem("bred")){
 localStorage.setItem("bred", bred);
 }
       if(!localStorage.getItem("bredmulti")){
 localStorage.setItem("bredmulti", bredmulti);
 }
+      if(!localStorage.getItem("bredmulticost")){
+localStorage.setItem("bredmulticost", bredmulticost);
+      }
+      
       bred = parseInt(localStorage.getItem("bred"));
 bredmulti = parseInt(localStorage.getItem("bredmulti"));
+      bredmulticost = parseInt(localStorage.getItem("bredmulticost"));
       setTimeout(()=>{
 document.getElementById("bredcount").innerHTML = `bred: ${bred}`;
         document.getElementById("game").style.display = "initial";
+        buyupdate();
 document.getElementById("load").style.display = "none";
       }, 500);
 
@@ -29,6 +36,31 @@ document.getElementById("load").style.display = "none";
       document.getElementById("bredcount").innerHTML = `bred: ${bred}`;
       localStorage.setItem("bred", bred);
     }
+
+function bredbuy(times){
+  if(bred >= bredmulticost * 1.2 * times){
+  for(i=0;i<parseInt(times);i++){
+    bred -= bredmulticost;
+      bredmulti *= 1.2;
+  bredmulticost *= 1.2;
+  }
+    document.getElementById("bredcount").innerHTML = `bred: ${bred}`;
+    localStorage.setItem("bred", bred);
+  localStorage.setItem("bredmulti", bredmulti);
+  localStorage.setItem("bredmulticost", bredmulticost);
+    buyupdate();
+  }
+  else{
+    alert("Not enough bred.");
+  }
+}
+
+      function buyupdate(){
+        for(i=0;i<document.getElementsByClassName("upgrade").length;i++){
+          document.getElementsByClassName("upgrade")[i].innerHTML = `Upgrade * ${document.getElementsByClassName("upgrade")[i].classList.item(0)}<br>Costs: ${document.getElementsByClassName("upgrade")[i].classList.item(0) * bredmulticost}`;
+
+        }
+      }
     </script>
 <style>
   #bred{
@@ -54,6 +86,10 @@ position: absolute;
 <p>bred bred bred</p>
     <p id="bredcount">bred:</p>
 <img onclick="bredclick()" id="bred" src="https://cdn.jsdelivr.net/gh/OzelotGamer/ozelotgamer.github.io@5f5c83711762e631163e96c8cf3b5c0d52001c56/bred.gif"></img>
+      <div>
+<h3>Upgrades</h3>
+        <button class="1 upgrade" onclick="bredbuy(this.classList.item(0))">Upgrade * 1<br>Costs: 100</button>
+      </div>
     </div>
   </body>
 </html>
