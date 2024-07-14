@@ -13,7 +13,7 @@ localStorage.setItem("bred", 0);
 }
 var bred = 0;
       var bredmulti = 1;
-    document.getElementById("bred").onclick = ()=>{
+    function bredclick(){
       bred += bredmulti;
       document.getElementById("bredcount").innerHTML = `bred: ${bred}`;
     }
@@ -31,6 +31,6 @@ position: absolute;
 <h1>bred</h1>
 <p>bred bred bred</p>
     <p id="bredcount">bred:</p>
-<img id="bred" src="https://cdn.jsdelivr.net/gh/OzelotGamer/ozelotgamer.github.io@5f5c83711762e631163e96c8cf3b5c0d52001c56/bred.gif"></img>
+<img onclick="bredclick()" id="bred" src="https://cdn.jsdelivr.net/gh/OzelotGamer/ozelotgamer.github.io@5f5c83711762e631163e96c8cf3b5c0d52001c56/bred.gif"></img>
   </body>
 </html>
