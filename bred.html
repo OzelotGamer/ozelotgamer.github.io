@@ -16,8 +16,8 @@ localStorage.setItem("bred", bred);
       if(!localStorage.getItem("bredmulti")){
 localStorage.setItem("bredmulti", bredmulti);
 }
-      bred = localStorage.getItem("bred");
-bredmulti = localStorage.getItem("bredmulti");
+      bred = parseInt(localStorage.getItem("bred"));
+bredmulti = parseInt(localStorage.getItem("bredmulti"));
 document.getElementById("bredcount").innerHTML = `bred: ${bred}`;
 
     function bredclick(){
