@@ -39,8 +39,8 @@ document.getElementById("load").style.display = "none";
 
 function bredbuy(times){
   if(bred >= bredmulticost * times){
+    bred -= bredmulticost * times;
   for(i=0;i<parseInt(times);i++){
-    bred -= bredmulticost;
       bredmulti *= 1.2;
   bredmulticost *= 1.2;
   }
