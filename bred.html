@@ -18,7 +18,11 @@ localStorage.setItem("bredmulti", bredmulti);
 }
       bred = parseInt(localStorage.getItem("bred"));
 bredmulti = parseInt(localStorage.getItem("bredmulti"));
+      setTimeout(()=>{
 document.getElementById("bredcount").innerHTML = `bred: ${bred}`;
+        document.getElementById("game").style.display = "initial";
+document.getElementById("load").style.display = "none";
+      }, 500);
 
     function bredclick(){
       bred += bredmulti;
@@ -33,12 +37,23 @@ position: absolute;
     left: 50%;
     transform: translate(-50%,-50%);
   }
+#load{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
     </style>
   </head>
   <body>
+    <div id="load">
+      <h2>Loading...</h2>
+    </div>
+    <div id="game" style="display: none">
 <h1>bred</h1>
 <p>bred bred bred</p>
     <p id="bredcount">bred:</p>
 <img onclick="bredclick()" id="bred" src="https://cdn.jsdelivr.net/gh/OzelotGamer/ozelotgamer.github.io@5f5c83711762e631163e96c8cf3b5c0d52001c56/bred.gif"></img>
+    </div>
   </body>
 </html>
