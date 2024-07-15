@@ -21,9 +21,9 @@ localStorage.setItem("bredmulti", bredmulti);
 localStorage.setItem("bredmulticost", bredmulticost);
       }
       
-      bred = parseInt(localStorage.getItem("bred"));
-bredmulti = parseInt(localStorage.getItem("bredmulti"));
-      bredmulticost = parseInt(localStorage.getItem("bredmulticost"));
+      bred = parseFloat(localStorage.getItem("bred"));
+bredmulti = parseFloat(localStorage.getItem("bredmulti"));
+      bredmulticost = parseFloat(localStorage.getItem("bredmulticost"));
       setTimeout(()=>{
 document.getElementById("bredcount").innerHTML = `bred: ${bred}`;
         document.getElementById("game").style.display = "initial";
