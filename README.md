@@ -1,4 +1,4 @@
 # OzelotGamer
 ## Projects
-[bred](/bred/bred.html)
+[bred](/bred/bred.html)  
 [bred Tier List](/bredTierList/bred.html)
