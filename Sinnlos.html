@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+    <title>Titel</title>
+<script src="//cdn.jsdelivr.net/npm/eruda"></script>
+<script>eruda.init();</script>
+    <script>
+var Multiplier = "";
+function Multiply(){
+window.location.href += "?1";
+for(i=1;i<window.location.href.split("?").length - 1; i++){
+Multiplier += "?1";
+ }
+for(i=1;i<window.location.href.split("?").length - 1; i++){
+window.open(window.location.href + Multiplier, "_blank");
+ }
+}
+    </script>
+<style>
+h1{
+text-align: center;
+}
+    </style>
+  </head>
+  <body>
+<h1>Sinnloseste Website Jemals</h1>
+<button onclick="Multiply()">Link</button>
+  </body>
+</html>
