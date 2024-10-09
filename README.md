@@ -1,4 +1,4 @@
 # OzelotGamer
 ## Projects
-[Sinnlos](Sinnlos.html)
+[Sinnlos](Sinnlos.html)  
 [I'm Bored](imBored.html)
