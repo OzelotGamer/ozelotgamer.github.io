@@ -4,7 +4,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
     <title>Titel</title>
     <script>
-      
+      function Gen(){
+    document.querySelectorAll("div")[2].innerHTML = "https://www.youtube.com/redirect?event=video_description&q=" + encodeURI(document.querySelectorAll("input")[1].value) + "&v=" + document.querySelector("input").value;
+      }
     </script>
 <style>
   
@@ -15,5 +17,7 @@
     <input type="text" placeholder="dQw4w9WgXcQ"/>
     <div>Website Link:</div>
     <input type="text" placeholder="https://www.wikipedia.org/"/>
+    <input type="button" value="Generate" onclick="Gen()">
+    <div>Output</div>
   </body>
 </html>
