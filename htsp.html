@@ -16,7 +16,7 @@
   }
     </style>
   </head>
-  <body onload="document.querySelector('h1').innerHTML += atob(window.location.href.split('?')[1])">
+  <body onload="document.querySelector('h1').innerHTML += window.location.href.split('?')[1]">
     <h1>Hello </h1>
   </body>
 </html>
