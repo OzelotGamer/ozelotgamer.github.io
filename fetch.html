@@ -7,8 +7,9 @@
     <script>
       setInterval(()=>{
 fetch("input.txt")
-.then((response)=>{
-        document.querySelector("h1").innerHTML = response
+.then((response)=> response.text())
+        .then((text)=>{
+document.querySelector("h1").innerHTML = text
 })
       },1000)
     </script>
