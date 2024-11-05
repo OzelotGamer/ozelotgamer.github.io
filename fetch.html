@@ -6,7 +6,7 @@
     <title>Titel</title>
     <script>
       setInterval(()=>{
-fetch("input.txt")
+fetch("https://raw.githubusercontent.com/OzelotGamer/Just-Some-Text-Files/refs/heads/main/input.txt")
 .then((response)=> response.text())
         .then((text)=>{
 document.querySelector("h1").innerHTML = text
