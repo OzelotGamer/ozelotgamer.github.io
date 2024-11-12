@@ -5,7 +5,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
     <title>QRCode</title>
     <script>
+/*
+G1: 49
+G2: 98
+G3: 198
+E1: 41.2
+E2: 82.4
+E3: 164.8
+D1: 36.7
+D2: 73.4
+D3: 146.8
+C1: 32.7
+C2: 65.4
+C3: 130.8
+*/
+
+
+var div = ()=>{
+return document.querySelector('div');
+}
+
+var windowsRip = [
+"windows",
+198, 250,
+164.8, 250,
+130.8, 250,
+146.8, 1500,
+49, 150
+];
+
 var rickroll = [
+"rick",
 98,125,
 110,125,
 130.8,125,
@@ -44,60 +74,83 @@ const oscillator = audioCtx.createOscillator();
 
 oscillator.type = "square";
 
-function rick(tick){
-if(rickroll[tick]){
-oscillator.frequency.setValueAtTime(rickroll[tick], audioCtx.currentTime);
+var clickText = ["Ey...","Lass das!","Du wirst das bereuen!","Was hab ich grad eben gesagt?","LASS ES!","Oh nein...","Jetzt passiert es...","Bruh..."];
+
+function clicked(clickCount){
+div().setAttribute("onclick", "");
+sound(50, 10);
+div().innerHTML = "";
+setTimeout(()=>{
+div().innerHTML = clickText[clickCount];
+sound(50, 10);
+if(!clickText[clickCount + 1]) song(1, rickroll);
+else div().setAttribute("onclick", `clicked(${clickCount + 1})`);
+},1500);
+}
+
+function song(tick, data){
+if(data[tick]){
+oscillator.frequency.setValueAtTime(data[tick], audioCtx.currentTime);
 oscillator.connect(audioCtx.destination);
 setTimeout(()=>{
 oscillator.disconnect(audioCtx.destination)
 },100)
 setTimeout(()=>{
-rick(tick + 2);
-}, rickroll[tick + 1])
+song(tick + 2, data);
+}, data[tick + 1])
 }
-else oscillator.disconnect(audioCtx.destination);
+else {
+switch(data[0]){
+case "rick":
+setTimeout(()=>{
+sound(100, 50)
+div().innerHTML = "WOW! Das hast jetzt echt gebracht.";
+}, 500);
+setTimeout(()=>{
+song(1, windowsRip);
+},1500);
+break;
+case "windows":
+window.close();
+break;
+}
+}
 }
 
 function anim(stage){
-var div = document.querySelector("div");
-var inner = div.innerHTML;
-div.setAttribute("onclick", "");
+var inner = div().innerHTML;
+div().setAttribute("onclick", "");
 setTimeout(()=>{
 if(stage){
 if(inner.length < text.length){
-div.innerHTML += text.slice(inner.length, inner.length + 2);
-oscillator.frequency.setValueAtTime(100, audioCtx.currentTime);
-oscillator.connect(audioCtx.destination);
-setTimeout(()=>{
-oscillator.frequency.setValueAtTime(200, audioCtx.currentTime);
-},50);
-setTimeout(()=>{
-oscillator.disconnect(audioCtx.destination);
-},100);
+div().innerHTML += text.slice(inner.length, inner.length + 2);
+sound(100, 200);
 anim(true);
 return;
 }
 else{
-setTimeout(()=>{
-rick(0);
-}, Math.random() * 1000 + 1000)
+div().setAttribute("onclick", "clicked(0)");
 return;
 }
 }
 if(inner.length){
-div.innerHTML = inner.slice(0, inner.length - 2);
-oscillator.frequency.setValueAtTime(150, audioCtx.currentTime);
-oscillator.connect(audioCtx.destination);
-setTimeout(()=>{
-oscillator.frequency.setValueAtTime(50, audioCtx.currentTime);
-},50);
-setTimeout(()=>{
-oscillator.disconnect(audioCtx.destination);
-},100);
+div().innerHTML = inner.slice(0, inner.length - 2);
+sound(150, 50);
 anim();
 }
 else anim(true);
 },500)
+}
+
+function sound(startPitch, endPitch){
+oscillator.frequency.setValueAtTime(startPitch, audioCtx.currentTime);
+oscillator.connect(audioCtx.destination);
+setTimeout(()=>{
+oscillator.frequency.setValueAtTime(endPitch, audioCtx.currentTime);
+},50);
+setTimeout(()=>{
+oscillator.disconnect(audioCtx.destination);
+},100);
 }
     </script>
 <style>
@@ -117,6 +170,6 @@ else anim(true);
   <body onload="setTimeout(()=>{
 alert('Denk nicht mal dran den Text anzutippen!')
 }, Math.random() * 1000 + 1000);">
-<div onclick="anim(); oscillator.start();">Noch nix hier...<br>(klicken verboten)</div>
+<div onclick="var div = document.querySelector('div'); anim(); oscillator.start();">Noch nix hier...<br>(klicken verboten)</div>
 </body>
 </html>
