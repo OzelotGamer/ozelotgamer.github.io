@@ -3,22 +3,59 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
-    <title>Titel</title>
+    <title>QRCode</title>
     <script>
-      
+var text = "Oder doch nicht 🤔🤨?";
+const audioCtx = new AudioContext();
+const oscillator = audioCtx.createOscillator();
+oscillator.type = "square";
+oscillator.start();
+oscillator.frequency.setValueAtTime(50, audioCtx.currentTime);
+function anim(stage){
+var div = document.querySelector("div");
+var inner = div.innerHTML;
+div.setAttribute("onclick", "");
+setTimeout(()=>{
+if(stage){
+oscillator.frequency.setValueAtTime(100, audioCtx.currentTime);
+if(inner.length < text.length){
+div.innerHTML += text.slice(inner.length, inner.length + 2);
+oscillator.connect(audioCtx.destination);
+setTimeout(()=>{
+oscillator.disconnect(audioCtx.destination);
+},100);
+anim(true);
+return;
+}
+else return;
+}
+if(inner.length){
+div.innerHTML = inner.slice(0, inner.length - 2);
+oscillator.connect(audioCtx.destination);
+setTimeout(()=>{
+oscillator.disconnect(audioCtx.destination);
+},100);
+anim();
+}
+else anim(true);
+},500)
+}
     </script>
 <style>
   div{
-    font-size: 50px;
-    font-weight: bold;
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%; -50%);
+    width: 90%;
+    transform: translate(-50%, -50%);
+    font-size: 30px;
+    font-weight: bold;
+    display: inline;
+    text-align: center;
   }
     </style>
   </head>
   <body>
-    <div>Immer noch nix hier...</div>
-  </body>
+<div onclick="anim(); oscillator.start();">Noch nix hier...</div>
+</body>
 </html>
