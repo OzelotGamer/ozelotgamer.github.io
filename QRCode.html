@@ -5,9 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
     <title>QRCode</title>
     <script>
-setTimeout(()=>{
-alert("Wag dich den text anzutippen")
-},2500)
 var rickroll = [
 98,125,
 110,125,
@@ -39,7 +36,7 @@ var rickroll = [
 130.8,1000
 ];
 
-var text = "Wieso 🤨? Warum klickst du einfach so den text an?";
+var text = "Wieso 🤨? Warum klickst du einfach so den text an 😥?";
 
 const audioCtx = new AudioContext();
 
@@ -117,7 +114,9 @@ else anim(true);
   }
     </style>
   </head>
-  <body>
+  <body onload="setTimeout(()=>{
+alert('Denk nicht mal dran den Text anzutippen!')
+}, Math.random() * 1000 + 1000);">
 <div onclick="anim(); oscillator.start();">Noch nix hier...<br>(klicken verboten)</div>
 </body>
 </html>
