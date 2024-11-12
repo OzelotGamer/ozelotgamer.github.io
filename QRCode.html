@@ -10,17 +10,19 @@ const audioCtx = new AudioContext();
 const oscillator = audioCtx.createOscillator();
 oscillator.type = "square";
 oscillator.start();
-oscillator.frequency.setValueAtTime(50, audioCtx.currentTime);
 function anim(stage){
 var div = document.querySelector("div");
 var inner = div.innerHTML;
 div.setAttribute("onclick", "");
 setTimeout(()=>{
 if(stage){
-oscillator.frequency.setValueAtTime(100, audioCtx.currentTime);
 if(inner.length < text.length){
 div.innerHTML += text.slice(inner.length, inner.length + 2);
+oscillator.frequency.setValueAtTime(50, audioCtx.currentTime);
 oscillator.connect(audioCtx.destination);
+setTimeout(()=>{
+oscillator.frequency.setValueAtTime(150, audioCtx.currentTime);
+},50);
 setTimeout(()=>{
 oscillator.disconnect(audioCtx.destination);
 },100);
@@ -31,7 +33,11 @@ else return;
 }
 if(inner.length){
 div.innerHTML = inner.slice(0, inner.length - 2);
+oscillator.frequency.setValueAtTime(150, audioCtx.currentTime);
 oscillator.connect(audioCtx.destination);
+setTimeout(()=>{
+oscillator.frequency.setValueAtTime(50, audioCtx.currentTime);
+},50);
 setTimeout(()=>{
 oscillator.disconnect(audioCtx.destination);
 },100);
@@ -57,5 +63,6 @@ else anim(true);
   </head>
   <body>
 <div onclick="anim(); oscillator.start();">Noch nix hier...</div>
+<iframe src="https://youtu.be/dQw4w9WgXcQ?t=85"></iframe>
 </body>
 </html>
