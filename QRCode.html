@@ -5,11 +5,59 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
     <title>QRCode</title>
     <script>
+var rickroll = [
+98,125,
+110,125,
+130.8,125,
+110,125,
+164.8,375,
+164.8,375,
+146.8,750,
+98,125,
+110,125,
+130.8,125,
+110,125,
+146.8,375,
+146.8,375,
+130.8,375,
+123.5,125,
+110,250,
+98,125,
+110,125,
+130.8,125,
+110,125,
+130.8,500,
+146.8,250,
+123.4,375,
+110,125,
+98,500,
+98,250,
+146.8,500,
+130.8,1000
+];
+
 var text = "Oder doch nicht 🤔🤨?";
+
 const audioCtx = new AudioContext();
+
 const oscillator = audioCtx.createOscillator();
+
 oscillator.type = "square";
-oscillator.start();
+
+function rick(tick){
+if(rickroll[tick]){
+oscillator.frequency.setValueAtTime(rickroll[tick], audioCtx.currentTime);
+oscillator.connect(audioCtx.destination);
+setTimeout(()=>{
+oscillator.disconnect(audioCtx.destination)
+},100)
+setTimeout(()=>{
+rick(tick + 2);
+}, rickroll[tick + 1])
+}
+else oscillator.disconnect(audioCtx.destination);
+}
+
 function anim(stage){
 var div = document.querySelector("div");
 var inner = div.innerHTML;
@@ -29,7 +77,12 @@ oscillator.disconnect(audioCtx.destination);
 anim(true);
 return;
 }
-else return;
+else{
+setTimeout(()=>{
+rick(0);
+},1000)
+return;
+}
 }
 if(inner.length){
 div.innerHTML = inner.slice(0, inner.length - 2);
@@ -63,6 +116,5 @@ else anim(true);
   </head>
   <body>
 <div onclick="anim(); oscillator.start();">Noch nix hier...</div>
-<iframe src="https://youtu.be/dQw4w9WgXcQ?t=85"></iframe>
 </body>
 </html>
