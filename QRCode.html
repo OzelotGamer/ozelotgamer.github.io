@@ -39,7 +39,7 @@ var rickroll = [
 130.8,1000
 ];
 
-var text = "Oder doch nicht 🤔🤨?";
+var text = "Wieso 🤨? Warum klickst du einfach so den text an?";
 
 const audioCtx = new AudioContext();
 
@@ -69,10 +69,10 @@ setTimeout(()=>{
 if(stage){
 if(inner.length < text.length){
 div.innerHTML += text.slice(inner.length, inner.length + 2);
-oscillator.frequency.setValueAtTime(50, audioCtx.currentTime);
+oscillator.frequency.setValueAtTime(100, audioCtx.currentTime);
 oscillator.connect(audioCtx.destination);
 setTimeout(()=>{
-oscillator.frequency.setValueAtTime(150, audioCtx.currentTime);
+oscillator.frequency.setValueAtTime(200, audioCtx.currentTime);
 },50);
 setTimeout(()=>{
 oscillator.disconnect(audioCtx.destination);
@@ -118,6 +118,6 @@ else anim(true);
     </style>
   </head>
   <body>
-<div onclick="anim(); oscillator.start();">Noch nix hier...(klicken verboten)</div>
+<div onclick="anim(); oscillator.start();">Noch nix hier...<br>(klicken verboten)</div>
 </body>
 </html>
