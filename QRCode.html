@@ -66,7 +66,9 @@ var rickroll = [
 130.8,1000
 ];
 
-var text = "Wieso 🤨? Warum klickst du einfach so den Text an 😥?";
+var quiz = ["Was ist 1 + 1?","2","Wie heißt der aktuelle Bundeskanzler?","Olaf Scholz","Was ist 7 mal sieben?","Feiner Sand","Was ist die Quadratwurzel von 49?","7","What's 9 + 10?","21"];
+
+var text = "Wieso 🤨? Warum klickst du einfach so den text an 😥?";
 
 const audioCtx = new AudioContext();
 
@@ -168,8 +170,11 @@ oscillator.disconnect(audioCtx.destination);
     </style>
   </head>
   <body onload="setTimeout(()=>{
-alert('Denk nicht mal dran den Text anzutippen!')
-}, Math.random() * 1000 + 250);">
-<div onclick="var div = document.querySelector('div'); anim(); oscillator.start();">Noch nix hier...<br>(text anklicken verboten)</div>
+alert('Bitte erhöhe deine Lautstärke!')
+setTimeout(()=>{
+alert('Nein wirklich, bitte erhöhe deine Lautstärke!')
+}, Math.random() * 1000 + 1000)
+}, Math.random() * 1000 + 1000)">
+<div onclick="var div = document.querySelector('div'); anim(); oscillator.start();">Noch nix hier...<br>(klicken verboten)</div>
 </body>
 </html>
