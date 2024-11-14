@@ -20,9 +20,16 @@ C2: 65.4
 C3: 130.8
 */
 
+var alertedCount = 0;
+
+var toggle = true;
 
 var div = ()=>{
 return document.querySelector('div');
+}
+
+var input = ()=>{
+return document.querySelector('input');
 }
 
 var windowsRip = [
@@ -52,7 +59,7 @@ var rickroll = [
 130.8,375,
 123.5,125,
 110,250,
-98,125,
+98,125/*,
 110,125,
 130.8,125,
 110,125,
@@ -63,12 +70,12 @@ var rickroll = [
 98,500,
 98,250,
 146.8,500,
-130.8,1000
+130.8,1000*/
 ];
 
-var quiz = ["Was ist 1 + 1?","2","Wie heißt der aktuelle Bundeskanzler?","Olaf Scholz","Was ist 7 mal sieben?","Feiner Sand","Was ist die Quadratwurzel von 49?","7","What's 9 + 10?","21"];
-
 var text = "Wieso 🤨? Warum klickst du einfach so den Text an 😥?";
+
+var quizText = ["Was ist 1 + 1?","2","Wie heißt der aktuelle Bundeskanzler?","Olaf Scholz","Was ist 7 mal sieben?","Feiner Sand","Was ist die Quadratwurzel von 49?","7","Was für ein Ereignis hat sich 1976 am 24. December abgespielt?","Heiligabend"];
 
 const audioCtx = new AudioContext();
 
@@ -76,7 +83,102 @@ const oscillator = audioCtx.createOscillator();
 
 oscillator.type = "square";
 
-var clickText = ["Ey...","Lass das!","Du wirst das bereuen!","Was hab ich grad eben gesagt?","LASS ES!","Oh nein...","Jetzt passiert es...","Bruh..."];
+var clickText = ["Ey...","Lass das!","Du wirst das bereuen!","Was hab ich grad eben gesagt?","LASS DAS!","Oh nein...","Jetzt passiert es...","Bruh..."];
+
+function moveY(loops, from, offset){
+setTimeout(()=>{
+if(loops !== offset * 4){
+input().style.top =  from - loops / 4 + "%";
+if(offset < 0) moveY(loops - 1, from, offset)
+else moveY(loops + 1, from, offset)
+}
+},10)
+}
+
+function quiz(frage, antwort){
+if(localStorage.getItem("isCheating") == "true") cheatAlert();
+else{
+if(antwort == undefined){
+sound(150,125);
+div().innerHTML = quizText[frage];
+input().setAttribute("onchange",`quiz(${frage}, this.value)`);
+}
+else{
+if(antwort == quizText[frage + 1]){
+sound(250,500);
+div().innerHTML = "Richtig!";
+setTimeout(()=>{
+if(quizText[frage + 2]) quiz(frage + 2);
+else{
+document.body.setAttribute('onblur', '');
+sound(350,700);
+div().innerHTML = "Alles korrekt!!!";
+setTimeout(()=>{
+sound(50,45);
+div().innerHTML = "Deīne Ɓeloĥnūŋğ ï§ţ;";
+setTimeout(()=>{
+sound(50,45);
+div().innerHTML = "ĘŘŔØŔ";
+setTimeout(()=>{
+song(1, windowsRip);
+},1000)
+},1500)
+},1500)
+}
+},1500)
+}
+else{
+sound(50,25);
+div().innerHTML = "Womp Womp!";
+setTimeout(()=>{
+quiz(0);
+},1500)
+}
+}
+}
+}
+
+var cheatAlert = ()=>{
+var cheatInt = setInterval(()=>{
+oscillator.frequency.setValueAtTime(98, audioCtx.currentTime);
+if(toggle){
+oscillator.connect(audioCtx.destination);
+div().innerHTML = "CHEATER!!!"
+}
+else{
+oscillator.disconnect(audioCtx.destination);
+div().innerHTML = "";
+}
+toggle = !toggle;
+alertedCount++;
+if(alertedCount >= 10){
+clearInterval(cheatInt);
+song(1, windowsRip);
+}
+},500)
+}
+
+function init(){
+oscillator.start();
+setTimeout(()=>{
+if(localStorage.getItem('isCheating') == 'true'){
+sound(75,57);
+div().innerHTML = 'Hey warte mal...';
+setTimeout(()=>{
+sound(75,57);
+div().innerHTML = 'Du bist doch der CHEATER von eben!!!';
+setTimeout(()=>{
+cheatAlert();
+localStorage.setItem('isCheating','');
+},3000)
+},1500)
+}
+
+else{
+anim();
+}
+},250)
+}
 
 function clicked(clickCount){
 div().setAttribute("onclick", "");
@@ -104,13 +206,29 @@ song(tick + 2, data);
 else {
 switch(data[0]){
 case "rick":
+sound(100, 50);
+div().innerHTML = "WOW! Das hat es jetzt echt gebracht.";
 setTimeout(()=>{
-sound(100, 50)
-div().innerHTML = "WOW! Das hast jetzt echt gebracht.";
-}, 500);
+sound(100, 50);
+div().innerHTML = "Lass mal ein Quiz machen :)";
 setTimeout(()=>{
-song(1, windowsRip);
+sound(100, 50);
+div().innerHTML = "Falsche Antwort = Quiz von vorne!";
+setTimeout(()=>{
+sound(100, 50);
+div().innerHTML = "ABER!";
+setTimeout(()=>{
+sound(100, 50);
+div().innerHTML = "KEIN CHEATEN!!!<br>(Googlen ist Cheaten)";
+document.body.setAttribute('onblur', 'localStorage.setItem("isCheating", "true")');
+setTimeout(()=>{
+quiz(0);
+moveY(1, -10, -50);
+},3000);
 },1500);
+},3000);
+},3000);
+},3000);
 break;
 case "windows":
 window.close();
@@ -167,14 +285,33 @@ oscillator.disconnect(audioCtx.destination);
     display: inline;
     text-align: center;
   }
+input{
+    position: absolute;
+    top: -10%;
+    left: 50%;
+    width: 90%;
+    transform: translate(-50%, 0%);
+    font-size: 15px;
+    font-weight: bold;
+    display: inline;
+    text-align: center;
+  }
+body{
+    height: 100%;
+    overflow: hidden
+  }
     </style>
   </head>
-  <body onload="setTimeout(()=>{
+  <body onblur="" onload="
+setTimeout(()=>{
 alert('Bitte erhöhe deine Lautstärke!')
 setTimeout(()=>{
-alert('Nein wirklich, bitte erhöhe deine Lautstärke!')
+alert('Nein wirklich, bitte erhöhe deine Lautstärke!');
+div().setAttribute('onclick', 'init()')
 }, Math.random() * 1000 + 1000)
 }, Math.random() * 1000 + 1000)">
-<div onclick="var div = document.querySelector('div'); anim(); oscillator.start();">Noch nix hier...<br>(Text anklicken verboten)</div>
+<!-- <button onclick="localStorage.setItem('isCheating','')">Debug</button> -->
+<div onclick="">Noch nix hier...<br>(Text anklicken verboten)</div>
+<input type="text" placeholder="Antwort..." onclick="this.value = ''; this.style.top = '40';">
 </body>
 </html>
