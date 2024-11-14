@@ -3,6 +3,8 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+<!-- <script src="//cdn.jsdelivr.net/npm/eruda"></script>
+<script>eruda.init();</script> -->
     <title>QRCode</title>
     <script>
 /*
@@ -19,6 +21,8 @@ C1: 32.7
 C2: 65.4
 C3: 130.8
 */
+
+var animInt;
 
 var alertedCount = 0;
 
@@ -89,14 +93,17 @@ function moveY(loops, from, offset){
 setTimeout(()=>{
 if(loops !== offset * 4){
 input().style.top =  from - loops / 4 + "%";
-if(offset < 0) moveY(loops - 1, from, offset)
-else moveY(loops + 1, from, offset)
+if(offset < 0) moveY(loops - 1, from, offset);
+else moveY(loops + 1, from, offset);
 }
-},10)
+},2)
 }
 
 function quiz(frage, antwort){
-if(localStorage.getItem("isCheating") == "true") cheatAlert();
+if(localStorage.getItem("isCheating") == "true"){
+moveY(1, 40, 50);
+cheatAlert();
+}
 else{
 if(antwort == undefined){
 sound(150,125);
@@ -113,15 +120,22 @@ else{
 document.body.setAttribute('onblur', '');
 sound(350,700);
 div().innerHTML = "Alles korrekt!!!";
+moveY(1, 40, 50);
 setTimeout(()=>{
 sound(50,45);
 div().innerHTML = "Deīne Ɓeloĥnūŋğ ï§ţ;";
 setTimeout(()=>{
 sound(50,45);
 div().innerHTML = "ĘŘŔØŔ";
+var errInt = setInterval(()=>{
+sound(50,45);
+},125);
+setTimeout(()=>{
+clearInterval(errInt);
 setTimeout(()=>{
 song(1, windowsRip);
-},1000)
+},125)
+},1075)
 },1500)
 },1500)
 }
@@ -153,7 +167,9 @@ toggle = !toggle;
 alertedCount++;
 if(alertedCount >= 10){
 clearInterval(cheatInt);
+setTimeout((){
 song(1, windowsRip);
+},250)
 }
 },500)
 }
@@ -198,7 +214,7 @@ oscillator.frequency.setValueAtTime(data[tick], audioCtx.currentTime);
 oscillator.connect(audioCtx.destination);
 setTimeout(()=>{
 oscillator.disconnect(audioCtx.destination)
-},100)
+},200)
 setTimeout(()=>{
 song(tick + 2, data);
 }, data[tick + 1])
@@ -210,7 +226,7 @@ sound(100, 50);
 div().innerHTML = "WOW! Das hat es jetzt echt gebracht.";
 setTimeout(()=>{
 sound(100, 50);
-div().innerHTML = "Lass mal ein Quiz machen :)";
+div().innerHTML = "Lass mal ein Quiz spielen :)";
 setTimeout(()=>{
 sound(100, 50);
 div().innerHTML = "Falsche Antwort = Quiz von vorne!";
@@ -219,7 +235,7 @@ sound(100, 50);
 div().innerHTML = "ABER!";
 setTimeout(()=>{
 sound(100, 50);
-div().innerHTML = "KEIN CHEATEN!!!<br>(Googlen ist Cheaten)";
+div().innerHTML = "KEIN CHEATEN!!!<br>(Googlen ist cheaten)";
 document.body.setAttribute('onblur', 'localStorage.setItem("isCheating", "true")');
 setTimeout(()=>{
 quiz(0);
@@ -239,8 +255,8 @@ break;
 
 function anim(stage){
 var inner = div().innerHTML;
-div().setAttribute("onclick", "");
-setTimeout(()=>{
+div().setAttribute("onclick", "clearTimeout(animInt); this.innerHTML = text; this.setAttribute('onclick', 'clicked(0)');");
+animInt = setTimeout(()=>{
 if(stage){
 if(inner.length < text.length){
 div().innerHTML += text.slice(inner.length, inner.length + 2);
@@ -302,16 +318,11 @@ body{
   }
     </style>
   </head>
-  <body onblur="" onload="
-setTimeout(()=>{
-alert('Bitte erhöhe deine Lautstärke!')
-setTimeout(()=>{
-alert('Nein wirklich, bitte erhöhe deine Lautstärke!');
-div().setAttribute('onclick', 'init()')
-}, Math.random() * 1000 + 1000)
-}, Math.random() * 1000 + 1000)">
+  <body onblur="">
 <!-- <button onclick="localStorage.setItem('isCheating','')">Debug</button> -->
-<div onclick="">Noch nix hier...<br>(Text anklicken verboten)</div>
-<input type="text" placeholder="Antwort..." onclick="this.value = ''; this.style.top = '40';">
+<div onclick="alert('Bitte erhöhe deine Lautstärke!');
+alert('Bitte stelle deine Lautstärke auf 25%!');
+div().setAttribute('onclick', 'init()')">Noch nix hier...<br>(Text anklicken verboten)</div>
+<input type="text" placeholder="Antwort..." onclick="this.value = '';">
 </body>
 </html>
