@@ -79,7 +79,7 @@ var rickroll = [
 
 var text = "Wieso 🤨? Warum klickst du einfach so den Text an 😥?";
 
-var quizText = ["Was ist 1 + 1?","2","Wie heißt der aktuelle Bundeskanzler?","Olaf Scholz","Was ist 7 mal sieben?","Feiner Sand","Was ist die Quadratwurzel von 49?","7","Was für ein Ereignis hat sich 1976 am 24. December abgespielt?","Heiligabend"];
+var quizText = ["Was ist 1 + 1?","2","Wie heißt der aktuelle Bundeskanzler?","Olaf Scholz","Was ist 7 mal sieben?","Feiner Sand","Was ist die Quadratwurzel von 49?","7","Was für ein Ereignis hat sich 1976 am 24. Dezember abgespielt?","Heiligabend"];
 
 const audioCtx = new AudioContext();
 
@@ -192,6 +192,9 @@ localStorage.setItem('isCheating','');
 
 else{
 anim();
+setTimeout(()=>{
+div().setAttribute("onclick", "clearTimeout(animInt); this.innerHTML = text; this.setAttribute('onclick', 'clicked(0)');")
+},1500)
 }
 },250)
 }
@@ -255,7 +258,6 @@ break;
 
 function anim(stage){
 var inner = div().innerHTML;
-div().setAttribute("onclick", "clearTimeout(animInt); this.innerHTML = text; this.setAttribute('onclick', 'clicked(0)');");
 animInt = setTimeout(()=>{
 if(stage){
 if(inner.length < text.length){
