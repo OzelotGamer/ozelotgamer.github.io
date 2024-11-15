@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+    <title>Boo!</title>
+    <script>
+var string = "";
+for(i=0;i<100000;i++){
+string+="A"
+}
+for(i=0;i<100000;i++){
+string+="H"
+}
+for(i=0;i<100000;i++){
+string+="!"
+}
+</script>
+<style>
+*{
+overflow-wrap: break-word;
+}
+</style>
+  </head>
+  <body onload="setTimeout(()=>{document.querySelector('h1').innerHTML = string},500)">
+<h1></h1>
+  </body>
+</html>
