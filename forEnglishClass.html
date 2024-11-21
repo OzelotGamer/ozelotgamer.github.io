@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+    <title>Titel</title>
+    <script>
+        const owner = "OzelotGamer";
+const repo = "ozelotgamer.github.io";
+const branch = "main"; // or your branch name
+const filePath = "test.txt";
+const token = "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"; // Keep this secure
+const content = "Test!\"§$"; // New file content
+const commitMessage = "Ignore";
+
+      async function getFileSHA() {
+    const url = `https://api.github.com/repos/${owner}/${repo}/contents/${filePath}`;
+    const response = await fetch(url, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    });
+
+    if (!response.ok && response.status !== 404) {
+        throw new Error("Error fetching file: " + response.statusText);
+    }
+    const data = response.status === 404 ? null : await response.json();
+    return data ? data.sha : null;
+}
+
+      async function commitFile() {
+    const fileSHA = await getFileSHA();
+    const url = `https://api.github.com/repos/${owner}/${repo}/contents/${filePath}`;
+    const response = await fetch(url, {
+        method: "PUT",
+        headers: {
+            "Authorization": `Bearer ${token}`,
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            message: commitMessage,
+            content: btoa(content), // Convert to Base64
+            branch: branch,
+            sha: fileSHA, // Include SHA if updating an existing file
+        }),
+    });
+
+    if (response.ok) {
+        console.log("File committed successfully!");
+    } else {
+        console.error("Failed to commit:", await response.json());
+    }
+}
+
+commitFile().catch(console.error);
+    </script>
+    <style>
+
+    </style>
+</head>
+
+<body>
+<input type="url" placeholder="BC URL..." onchange="">
+<div></div>
+</body>
+
+</html>
