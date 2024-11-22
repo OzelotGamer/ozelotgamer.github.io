@@ -5,7 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
     <title>Titel</title>
 <script>
-const client = new tmi.Client({ /* ... */ });
+const client = new tmi.Client({
+  options: { debug: true },
+  channels: [ 'iamozelotgamer' ]
+});
 client.connect().catch(console.error);
 client.on('message', (channel, tags, message, self) => {
   document.querySelector("div").innerHTML += "<br>" + message;
