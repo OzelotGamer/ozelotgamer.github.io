@@ -6,7 +6,7 @@
     <title>Titel</title>
     <script src="//cdn.jsdelivr.net/npm/eruda"></script>
 <script>eruda.init();</script>
-    <script src="https://raw.githubusercontent.com/tmijs/tmi.js/refs/heads/main/dist/tmi.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/tmijs/tmi.js@3904ae743a12b984aa1a175740e8b5bae08a03e4/dist/tmi.min.js"></script>
 <script>
 const client = new tmi.Client({
   options: { debug: true },
@@ -14,7 +14,7 @@ const client = new tmi.Client({
 });
 client.connect().catch(console.error);
 client.on('message', (channel, tags, message, self) => {
-  document.document.getElementById("chat").innerHTML += "<br>" + message;
+  document.getElementById("chat").innerHTML += "<br>" + message;
 });
 </script>
 <style>
