@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
     <title>Titel</title>
+    <script src="https://raw.githubusercontent.com/tmijs/tmi.js/refs/heads/main/dist/tmi.min.js"></script>
 <script>
 const client = new tmi.Client({
   options: { debug: true },
@@ -11,15 +12,14 @@ const client = new tmi.Client({
 });
 client.connect().catch(console.error);
 client.on('message', (channel, tags, message, self) => {
-  document.querySelector("div").innerHTML += "<br>" + message;
+  document.document.getElementById("chat").innerHTML += "<br>" + message;
 });
 </script>
-    <script src="https://raw.githubusercontent.com/tmijs/tmi.js/refs/heads/main/dist/tmi.min.js"></script>
 <style>
 
 </style>
   </head>
   <body>
-<div></div>
+<div id="chat"></div>
   </body>
 </html>
