@@ -4,24 +4,153 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
     <title>Titel</title>
-    <script src="//cdn.jsdelivr.net/npm/eruda"></script>
-<script>eruda.init();</script>
+    <!--<script src="//cdn.jsdelivr.net/npm/eruda"></script>
+<script>eruda.init();</script>-->
     <script src="https://cdn.jsdelivr.net/gh/tmijs/tmi.js@3904ae743a12b984aa1a175740e8b5bae08a03e4/dist/tmi.min.js"></script>
 <script>
+var chars = "123456789abcdefghijklmnopqrstuvwxyz";
+
+var save = {};
+
+var choice;
+
+var temp = 0;
+
+/*
+Extreme Poverty
+Neighbor Hood Trash
+Mental Health
+Equality and Rights
+Homlessnes
+Racism
+*/
+
+if(!localStorage.getItem("user")){
+localStorage.setItem("user", gen())
+}
+
 const client = new tmi.Client({
   options: { debug: true },
+identity: {
+		username: 'botzelot',
+		password: atob('bHJsOXhudGsycHJ6NTNxMWc2dTV4YTgyMTdzdGc5'),
+	},
   channels: [ 'iamozelotgamer' ]
 });
-client.connect().catch(console.error);
+client.connect().catch(console.error).then(setInterval(()=>{
+client.say("iamozelotgamer", "get " + localStorage.getItem("user"))
+},2000));
+
 client.on('message', (channel, tags, message, self) => {
-  document.getElementById("chat").innerHTML += "<br>" + message;
+
+if(message.startsWith("get")){
+client.say("iamozelotgamer", message.split("get ")[1] + " " + JSON.stringify(save));
+}
+
+else{
+if(message.startsWith(localStorage.getItem("user"))){
+var msg = message.split(localStorage.getItem("user") + " ")[1];
+save = {};
+temp = JSON.parse(msg);
+  for(var z of Object.keys(temp)){
+save[z] = temp[z];
+};
+save[localStorage.getItem("user")] = choice.toString();
+for(var j = 1; j < 7; j++){
+temp = 0;
+  for(var y of Object.keys(save)){
+if(parseInt(save[y]) == j) temp++;
+  }
+document.getElementById(j+"out").innerHTML = temp+" people voted for this."
+}
+}
+}
 });
+
+function gen(){
+var strng = "";
+for(i=0;i<8;i++){
+strng += Math.floor(Math.random()*2)==0? chars[Math.floor(Math.random()*chars.length)].toUpperCase() : chars[Math.floor(Math.random()*chars.length)];
+}
+return strng;
+}
+
+function update(box){
+if(box.checked){
+box.className = "checked";
+for(var x of document.querySelectorAll("input[type='checkbox']")){
+if(!x.className) x.setAttribute("disabled","true");
+else choice = x.id;
+}
+}
+else{
+box.className = "";
+choice = "";
+for(var x of document.querySelectorAll("input[type='checkbox']"))x.removeAttribute("disabled");
+}
+}
 </script>
 <style>
+body{
+overflow: hidden;
+}
+.headline{
+font-size: 40px;
+width: 100%;
+height: 75px;
+background-color: #c0c0c0;
+border-bottom: 5px solid #404040;
+display: inline-block;
+text-align: center;
+margin-bottom: 25px;
+}
+.small{
+font-size: 25px;
+width: inherit;
+height: inherit;
+background-color: inherit;
+display: inline;
+}
+.bold{
+font-size: calc(1em + 1px);
+width: inherit;
+height: inherit;
+background-color: inherit;
+display: inline;
+font-weight: bold;
+}
 
+.abtrennStrich{
+width: 100%;
+height: 25px;
+border-bottom: 2px solid black;
+}
 </style>
   </head>
   <body>
-<div id="chat"></div>
+<div class="headline">Vote<div class="small"> for </div><div class="bold">Changes</div></div>
+<div class="bold">Extreme Poverty</div>
+<input type="checkbox" onchange="update(this)" class="" id="1"/>
+<div id="1out"></div>
+<div class="abtrennStrich"></div>
+<div class="bold">Neighbor Hood Trash</div>
+<input type="checkbox" onchange="update(this)" class="" id="2"/>
+<div id="2out"></div>
+<div class="abtrennStrich"></div>
+<div class="bold">Mental Health</div>
+<input type="checkbox" onchange="update(this)" class="" id="3"/>
+<div id="3out"></div>
+<div class="abtrennStrich"></div>
+<div class="bold">Equality and Rights</div>
+<input type="checkbox" onchange="update(this)" class="" id="4"/>
+<div id="4out"></div>
+<div class="abtrennStrich"></div>
+<div class="bold">Homlessnes</div>
+<input type="checkbox" onchange="update(this)" class="" id="5"/>
+<div id="5out"></div>
+<div class="abtrennStrich"></div>
+<div class="bold">Racism</div>
+<input type="checkbox" onchange="update(this)" class="" id="6"/>
+<div id="6out"></div>
   </body>
 </html>
