@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+    <title>HTML-Entityfier</title>
+<!--HEY THIS IS MY SOURCE CODE GET OUT OF HERE!!!-->
+    <script>
+function out(chars){
+var out = document.querySelectorAll("input");
+out[1].value = "";
+for(i=0;i<chars.length;i++){
+out[1].value += `&#${chars.charCodeAt(i)};`;
+}
+}
+</script>
+<style>
+p{
+diplay: inline-block;
+}
+.RealSmoll{
+display: inline-block;
+font-size: 5px;
+}
+</style>
+  </head>
+  <body>
+<div>Most pointless Website in <div class="RealSmoll">Coe's</div>Existence</div>
+<input type="text" placeholder="Input" oninput="out(this.value)"/>
+<input type="text" placeholder="Output"/>
+<input type="button" value="Copy Code" onclick="navigator.clipboard.writeText(document.querySelectorAll('input')[1].value)">
+  </body>
+</html>
