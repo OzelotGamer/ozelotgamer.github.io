@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Mir ist tod langweilig</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <style>
+.boxSmall{
+width: 200px;
+height: 200px;
+border: 1px solid black;
+}
+
+.boxMiddle{
+width: 300px;
+height: 300px;
+border: 2px solid black;
+}
+
+.boxSmall, .boxMiddle, .boxLarge{
+margin: 25px;
+}
+
+.headline{
+font-size: 25px;
+font-weight: bold;
+background-color: black;
+color: white;
+}
+
+.special{
+background-color: silver;
+}
+
+.headline, .special{
+text-align: center;
+}
+
+input{
+margin: 5px 0px 0px 5px;
+}
+
+.imgSmall{
+width: 100px;
+height: 100px;
+position: relative;
+top: 0%;
+left: 50%;
+transform: translate(-50%, 0%);
+}
+    </style>
+    <script>
+//Wie oft siest du Apfel + bild (sinnlos)
+//Vater Sohn = Mutter
+//Rom
+
+var bigWrongSound = new Audio("https://www.myinstants.com/media/sounds/extremely-loud-incorrect-buzzer_0cDaG20.mp3");
+
+var bigCorrectSound = new Audio("https://www.myinstants.com/media/sounds/extremely-loud-correct-buzzer.mp3");
+
+var idiotenTest = [
+  {
+"frage":'Wie oft siehst du "Apfel"?',
+"antwort":2,
+"bild":"https://m.media-amazon.com/images/I/81MbS41+wFL._AC_UF894,1000_QL80_.jpg"
+  },
+  {
+"frage":'Ich bin nicht dein Vater doch trotzdem bist du mein Sohn. Wer bin ich?',
+"antwort":"Mutter",
+"bild":"https://img.freepik.com/vektoren-kostenlos/familiensymbol-im-flachen-design_23-2149282971.jpg"
+  },
+  {
+"frage":'Was ist in der Mitte von Rom?',
+"antwort":"o",
+"bild":"https://www.secretplaces.de/images/geo-new/region/52-1.jpg"
+  },
+  {
+"frage":'Gewonnen!!!',
+"bild":"https://images.emojiterra.com/google/android-11/512px/1f389.png"
+  }
+];
+
+var idiotenTestFrage = 0;
+
+function quiz(){
+  if(document.querySelectorAll("input")[0].value == idiotenTest[idiotenTestFrage].antwort){
+idiotenTestFrage++;
+UpdateQuizData();
+bigCorrectSound.play();
+  }
+  else{
+idiotenTestFrage = 0;
+UpdateQuizData();
+bigWrongSound.play();
+  }
+}
+
+function UpdateQuizData(){
+document.querySelectorAll("p.special")[0].innerHTML = `${idiotenTestFrage + 1}. Frage: ${idiotenTest[idiotenTestFrage].frage}`;
+document.querySelectorAll("img")[0].src = idiotenTest[idiotenTestFrage].bild;
+document.querySelectorAll("input")[0].value = "";
+}
+    </script>
+  </head>
+  <body>
+
+<!-- IDIOTEN TEST: -->
+<div class="boxMiddle">
+<p class="headline">Leichtestes Quiz</p>
+<p class="special">1. Frage: Wie oft siehst du "Apfel"?<p>
+<p>
+<img class="imgSmall" src="https://m.media-amazon.com/images/I/81MbS41+wFL._AC_UF894,1000_QL80_.jpg"></img>
+</p>
+<input type="text" placeholder="Apfel"/>
+<input type="button" value="Bestätigen" onclick="quiz()"/>
+<div>
+
+  </body>
+</html>
