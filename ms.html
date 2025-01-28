@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Music Stealer</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <style>
+.headline{
+font-size: 25px;
+font-weight: bold;
+background-color: black;
+color: white;
+}
+    </style>
+    <script>
+function borrowMusic(link){
+document.querySelector("input").value = "";
+fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(link)}`)
+.then(response => {return response.json()
+})
+.then(data => {
+
+if(link.includes("newgrounds")) navigator.clipboard.writeText(data.contents.split('\":\"')[1].split('\"')[0].split("\\").join(""));
+else if(link.includes("bandcamp")) navigator.clipboard.writeText(data.contents.split("8&")[1].split(";").slice(2).join("").split("&q")[0]);
+
+}
+)
+}
+    </script>
+  </head>
+  <body>
+    <p class="headline">Music Stealer</p>
+<p>Only for Newgrounds and Bandcamp</p>
+<input type="text" placeholder="Music link" onchange="borrowMusic(this.value)"/>
+  </body>
+</html>
