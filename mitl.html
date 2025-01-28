@@ -15,6 +15,7 @@ border: 1px solid black;
 width: 300px;
 height: 300px;
 border: 2px solid black;
+transition: all 2s;
 }
 
 .boxSmall, .boxMiddle, .boxLarge{
@@ -48,12 +49,13 @@ top: 0%;
 left: 50%;
 transform: translate(-50%, 0%);
 }
+
+.apfel:active{
+transform: translate(0px , 15px);
+}
+
     </style>
     <script>
-//Wie oft siest du Apfel + bild (sinnlos)
-//Vater Sohn = Mutter
-//Rom
-
 var bigWrongSound = new Audio("https://www.myinstants.com/media/sounds/extremely-loud-incorrect-buzzer_0cDaG20.mp3");
 
 var bigCorrectSound = new Audio("https://www.myinstants.com/media/sounds/extremely-loud-correct-buzzer.mp3");
@@ -61,7 +63,7 @@ var bigCorrectSound = new Audio("https://www.myinstants.com/media/sounds/extreme
 var idiotenTest = [
   {
 "frage":'Wie oft siehst du "Apfel"?',
-"antwort":2,
+"antwort":3,
 "bild":"https://m.media-amazon.com/images/I/81MbS41+wFL._AC_UF894,1000_QL80_.jpg"
   },
   {
@@ -96,7 +98,7 @@ bigWrongSound.play();
 }
 
 function UpdateQuizData(){
-document.querySelectorAll("p.special")[0].innerHTML = `${idiotenTestFrage + 1}. Frage: ${idiotenTest[idiotenTestFrage].frage}`;
+document.querySelectorAll("p.special")[0].innerHTML = (idiotenTestFrage < idiotenTest.length-1?`${idiotenTestFrage + 1}. Frage: `:"") + `${idiotenTest[idiotenTestFrage].frage}`;
 document.querySelectorAll("img")[0].src = idiotenTest[idiotenTestFrage].bild;
 document.querySelectorAll("input")[0].value = "";
 }
@@ -105,13 +107,15 @@ document.querySelectorAll("input")[0].value = "";
   <body>
 
 <!-- IDIOTEN TEST: -->
-<div class="boxMiddle">
+<div style="z-index: -2; position: absolute; margin: 25px">Apfel</div>
+
+<div class="boxMiddle apfel">
 <p class="headline">Leichtestes Quiz</p>
 <p class="special">1. Frage: Wie oft siehst du "Apfel"?<p>
 <p>
 <img class="imgSmall" src="https://m.media-amazon.com/images/I/81MbS41+wFL._AC_UF894,1000_QL80_.jpg"></img>
 </p>
-<input type="text" placeholder="Apfel"/>
+<input type="text" placeholder="Bitte Apfel eingeben"/>
 <input type="button" value="Bestätigen" onclick="quiz()"/>
 <div>
 
