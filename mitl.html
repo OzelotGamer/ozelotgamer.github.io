@@ -102,13 +102,26 @@ document.querySelectorAll("p.special")[0].innerHTML = (idiotenTestFrage < idiote
 document.querySelectorAll("img")[0].src = idiotenTest[idiotenTestFrage].bild;
 document.querySelectorAll("input")[0].value = "";
 }
+
+function borrowMusic(link){
+document.querySelectorAll("input[type=text]")[1].value = "";
+fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(link)}`)
+.then(response => {return response.json()
+})
+.then(data => {
+
+if(link.includes("newgrounds")) navigator.clipboard.writeText(data.contents.split('\":\"')[1].split('\"')[0].split("\\").join(""));
+else if(link.includes("bandcamp")) navigator.clipboard.writeText(data.contents.split("8&")[1].split(";").slice(2).join("").split("&q")[0]);
+
+}
+)
+}
     </script>
   </head>
   <body>
 
-<!-- IDIOTEN TEST: -->
+<!-- IDIOTEN TEST -->
 <div style="z-index: -2; position: absolute; margin: 25px">Apfel</div>
-
 <div class="boxMiddle apfel">
 <p class="headline">Leichtestes Quiz</p>
 <p class="special">1. Frage: Wie oft siehst du "Apfel"?<p>
@@ -117,7 +130,16 @@ document.querySelectorAll("input")[0].value = "";
 </p>
 <input type="text" placeholder="Bitte Apfel eingeben"/>
 <input type="button" value="Bestätigen" onclick="quiz()"/>
-<div>
+</div>
+
+
+<!-- Musik Stealer -->
+<div class="boxSmall">
+<p class="headline">Musik Stealer</p>
+<input type="text" placeholder="Musik link" onchange="borrowMusic(this.value)"/>
+<a href="ms.html">Borrow Music</a>
+</div>
+
 
   </body>
 </html>
