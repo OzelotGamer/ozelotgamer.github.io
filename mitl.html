@@ -112,7 +112,7 @@ fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(link)}`)
 
 if(link.includes("newgrounds")) navigator.clipboard.writeText(data.contents.split('\":\"')[1].split('\"')[0].split("\\").join(""));
 else if(link.includes("bandcamp")) navigator.clipboard.writeText(data.contents.split("8&")[1].split(";").slice(2).join("").split("&q")[0]);
-
+else alert("Nuh uh, nur Bandcamp und Newgrounds")
 }
 )
 }
