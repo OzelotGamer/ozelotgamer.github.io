@@ -1,7 +1,6 @@
 # OzelotGamer
 ## Projects
 [HTML-Entityfier](HTMLEntityfier.html)  
-[Troll Link Generator](yttrollgenerator.html)  
-[Music Stealer](ms.html)
+[Troll Link Generator](yttrollgenerator.html)
 ## About Me
 I am bored.
