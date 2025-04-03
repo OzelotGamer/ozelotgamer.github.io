@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Fractals</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <style>
+    canvas {
+      margin: 5px 0px 5px 0px;
+      border: 1px solid #80808080;
+      width: 2000px;
+      height: 2000px;
+      position: relative;
+      left: 50%;
+      transform: translate(-50%, 0%);
+    }
+  </style>
+  <script>
+    var index = 0;
+    var pascal;
+
+    function gen() {
+      pascal = [[1n]];
+      var c = document.querySelector("canvas");
+      var ctx = c.getContext("2d");
+      ctx.font = "100px Arial";
+      ctx.fillStyle = "white";
+      ctx.fillRect(0, 0, c.width, c.height);
+      ctx.fillStyle = "black";
+      index = 0;
+      serialize();
+    }
+    function serialize(){
+      pascal.push([1n]);
+        for(let j = 1n; j < index; j++){
+          pascal[index].push(pascal[Number(index)-1][Number(j)-1] + pascal[Number(index)-1][Number(j)]);
+        }
+        pascal[index].push(1n);
+        document.querySelector("div").innerHTML = index;
+        visualize(index);
+        index++;
+        if(index > 2){
+          pascal[index-2] = []
+        }
+      if(BigInt(index) < BigInt(document.querySelector("input").value)){
+          if(index % 5 == 0) setTimeout(serialize, 1);
+          else serialize();
+        }
+    }
+
+    function visualize(i){
+      var c = document.querySelector("canvas");
+      var ctx = c.getContext("2d");
+      var x = pascal[i];
+        x.forEach((y, ind)=>{
+          if(y % 2n != 0n){
+            ctx.fillRect(c.width / 2 - (x.length * 1) / 2 + ind * 1, i, 1, 1);
+          }
+        })
+    }
+
+    /*
+            1
+          1   1
+        1   2   1
+      1   3   3   1
+    1   4   6   4   1
+  1   5  10  10   5   1
+1   6  15  20  15   6   1 
+    */
+  </script>
+</head>
+
+<body>
+  <button onclick="gen()">Generieren</button>
+  <input type="number" value="16384">
+  <canvas width="16384" height="16384"></canvas>
+  <div>[Pascalsches Dreieck als array]</div>
+</body>
+
+</html>
