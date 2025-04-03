@@ -4,4 +4,4 @@
 [Troll Link Generator](yttrollgenerator.html)  
 [Music Stealer](ms.html)
 ## About Me
-I am [bored](mitl.html).
+I am bored.
