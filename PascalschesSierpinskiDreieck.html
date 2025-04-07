@@ -24,6 +24,8 @@
       pascal = [[1n]];
       var c = document.querySelector("canvas");
       var ctx = c.getContext("2d");
+      c.width = document.querySelector("input").value;
+      c.height = document.querySelector("input").value;
       ctx.font = "100px Arial";
       ctx.fillStyle = "white";
       ctx.fillRect(0, 0, c.width, c.height);
