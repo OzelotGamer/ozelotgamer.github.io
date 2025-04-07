@@ -77,7 +77,8 @@
 <body>
   <button onclick="gen()">Generieren</button>
   <input type="number" value="8192">
-  <canvas width="8192" height="8192"></canvas>
+  <canvas width="8192" height="8192" onclick="var a = document.querySelector('a'); a.href = this.toDataURL(); a.click()"></canvas>
+  <a href="none" download="SPiaesrkpailnski"></a>
   <div>[Pascalsches Dreieck als array]</div>
 </body>
 
