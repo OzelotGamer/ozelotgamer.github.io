@@ -27,9 +27,9 @@
       c.width = document.querySelector("input").value;
       c.height = document.querySelector("input").value;
       ctx.font = "100px Arial";
-      ctx.fillStyle = "white";
-      ctx.fillRect(0, 0, c.width, c.height);
       ctx.fillStyle = "black";
+      ctx.fillRect(0, 0, c.width, c.height);
+      ctx.fillStyle = "white";
       index = 0;
       serialize();
     }
