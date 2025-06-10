@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>CharacterEncodingTranslator</title>
+  <meta charset="UTF-8">
+  <meta name="google" content="notranslate">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+html, body {
+height: 100%;
+width: 100%;
+margin: 0;
+display: flex;
+flex-direction: column;
+}
+
+textarea {
+flex: 1;
+resize: none;
+width: auto;
+box-sizing: border-box;
+margin: 5px;
+}
+    </style>
+    <script>
+function trytranslate() {
+  const [input, unicode, base64, htmlEntity, binary] = document.querySelectorAll("textarea");
+  const text = input.value;
+
+  const unicodeArr = [];
+  const htmlEntityArr = [];
+  const binaryArr = [];
+
+  for (let i = 0; i < text.length; i++) {
+    const char = text[i];
+    const charCode = text.charCodeAt(i);
+    unicodeArr.push("\\u" + charCode.toString(16).padStart(4, "0"));
+    htmlEntityArr.push("&#" + charCode + ";");
+    binaryArr.push(charCode.toString(2).padStart(8, "0"));
+  }
+
+  unicode.value = unicodeArr.join("");
+  base64.value = btoa(text);
+  htmlEntity.value = htmlEntityArr.join("");
+  binary.value = binaryArr.join(" ");
+}
+
+</script>
+  </head>
+  <body>
+<textarea oninput="trytranslate(this)" placeholder="plain text"></textarea>
+<textarea placeholder="unicode"></textarea>
+<textarea placeholder="base64"></textarea>
+<textarea placeholder="html entity"></textarea>
+<textarea placeholder="binary"></textarea>
+  </body>
+</html>
