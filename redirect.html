@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+    <title>Redirect</title>
+    <script>
+        if(location.search){
+            location.href = atob(location.search.split("?")[1]);
+            alert(location.search.split("?")[1])
+        }
+    </script>
+    <style>
+    </style>
+</head>
+<body>
+    <input type="text" placeholder="Input" oninput="navigator.clipboard.writeText(btoa(this.value))"/>
+</body>
+</html>
