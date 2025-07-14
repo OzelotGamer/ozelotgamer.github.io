@@ -5,7 +5,7 @@
     <title>Youtube Trolllink Generator</title>
     <script>
       function Gen(){
-    document.querySelectorAll("div")[2].innerHTML = "https://www.youtube.com/redirect?event=video_description&q=" + encodeURIComponent(document.querySelectorAll("input")[1].value) + "&v=" + document.querySelector("input").value;
+    document.querySelectorAll("div")[2].innerHTML = "https://www.youtube.com/redirect?event=video_description" + (document.querySelectorAll("input")[2].value?"&redir_token="+document.querySelectorAll("input")[2].value:"") + "&v=" + document.querySelector("input").value + "&q=" + encodeURIComponent(document.querySelectorAll("input")[1].value);
       }
     </script>
 <style>
