@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+    <title>Redirect</title>
+    <script>
+        var tenorDom;
+
+        const parser = new DOMParser();
+
+        fetch(`https://api.allorigins.win/get?url=${encodeURIComponent('https://tenor.com/de/search/seal-animal-gifs?format=gifs')}`)
+        .then(response => {
+            if (response.ok) return response.json()
+            alert("Error loading Tenor.")
+        })
+        .then(data => {
+            tenorDom = parser.parseFromString(data.contents, "text/html");
+            document.querySelector("img").src = findSealImg().src;
+        });
+
+        function findSealImg(){
+            var img = tenorDom.querySelectorAll("img[loading=lazy]")[Math.floor(Math.random()*tenorDom.querySelectorAll("img[loading=lazy]").length)];
+            if(img.alt.includes("slater"))
+                return findSealImg()
+            else return img;
+        }
+    </script>
+    <style>
+        img{
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            aspect-ratio: 1/1;
+            width: 90cqh;
+        }
+        
+        @media only screen and (max-width: 600px){
+            img{
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                aspect-ratio: 1/1;
+                width: 90cqw;
+            }
+        }
+    </style>
+</head>
+<body>
+    <img></img>
+</body>
+</html>
