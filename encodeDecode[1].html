@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html>
+  <head>
+<!--
+<script src="https://cdn.jsdelivr.net/npm/eruda"></script>
+<script>eruda.init();</script>
+-->
+    <title>EncodeDecode</title>
+  <meta charset="UTF-8">
+  <meta name="google" content="notranslate">
+<link rel="stylesheet" href="base.css">
+  <meta name="viewport" content="width=device-width, interactive-widget=none, initial-scale=1.0, user-scaleable=none">
+    <style>
+html, body {
+height: 100vh;
+width: 100vw;
+margin: 0;
+display: flex;
+flex-direction: column;
+color: var(--fCol);
+background-color: var(--bgCol);
+}
+
+textarea{
+flex: 1;
+resize: none;
+box-sizing: border-box;
+margin: 5px;
+border-radius: 0;
+background-color: var(--elemBgCol);
+border: 1px solid var(--bCol);
+color: var(--fCol);
+}
+
+canvas{
+flex: 1;
+margin: 5px 0 5px 0;
+border: 1px solid var(--bCol);
+width: 45vw;
+box-sizing: border-box;
+aspect-ratio: 1/1;
+position: relative;
+left: 50%;
+transform: translate(-50%, 0);
+background-color: var(--elemBgCol);
+image-rendering: pixelated;
+image-rendering: crisp-edges;
+}
+
+label{
+height: 0;
+margin: 0 0 0 5px;
+}
+
+div{
+height: 0;
+margin: 5px 0 2.5px 0;
+}
+
+button{
+margin: 0 0 2.5px 0;
+width: 25vw;
+background-color: var(--elemBgCol);
+color: var(--fCol);
+border: 1px solid var(--bCol);
+}
+    </style>
+    <script>
+function trans(input, exclusion) {
+  const areas = document.querySelectorAll("textarea");
+const c = document.querySelector("canvas");
+const ctx = c.getContext("2d");
+  const text = input.value;
+  const unicodeArr = [];
+  const htmlEntityArr = [];
+  const binaryArr = [];
+  const octArr = [];
+  const decArr = [];
+  const hexArr = [];
+const picDecArr = [];
+
+  for (let i = 0; i < text.length; i++) {
+const char = text[i];
+const charCode = text.charCodeAt(i);
+unicodeArr.push("\\u" + charCode.toString(16).padStart(4, "0"));
+htmlEntityArr.push("&#" + charCode + ";");
+binaryArr.push(charCode.toString(2).padStart(8, "0"));
+octArr.push(charCode.toString(8));
+decArr.push(charCode);
+hexArr.push(charCode.toString(16));
+  }
+if(exclusion !== 1)
+  areas[1].value = unicodeArr.join("");
+if(exclusion !== 2){
+try{
+areas[2].value = btoa(text);
+}
+catch(err){
+areas[2].value = err;
+}
+}
+if(exclusion !== 3)
+  areas[3].value = htmlEntityArr.join("");
+if(exclusion !== 4)
+  areas[4].value = binaryArr.join(" ");
+if(exclusion !== 5)
+  areas[5].value = octArr.join(" ");
+if(exclusion !== 6)
+  areas[6].value = decArr.join(" ");
+if(exclusion !== 7)
+  areas[7].value = hexArr.join(" ");
+
+for(let x of btoa(text)){
+picDecArr.push(x.charCodeAt(0));
+}
+const picSize = Math.ceil(Math.sqrt(Math.ceil(picDecArr.length/3)));
+c.width = c.height = picSize;
+const imgDat = ctx.createImageData(picSize, picSize);
+for(let i = 0, j = 0; i < imgDat.data.length; j+=3, i+=4){
+imgDat.data[i] = picDecArr[j] ?? 0;
+imgDat.data[i + 1] = picDecArr[j + 1] ?? 0;
+imgDat.data[i + 2] = picDecArr[j + 2] ?? 0;
+imgDat.data[i + 3] = 255;
+}
+ctx.putImageData(imgDat, 0, 0);
+}
+
+function unicodeToText(input){
+const chars = input.value.slice(2).split("\\u");
+var out = "";
+for(let x of chars){
+out += String.fromCharCode(parseInt(x,16));
+}
+const area = document.querySelector("textarea")
+area.value = out;
+trans(area, 1);
+}
+
+function base64ToText(input){
+const area = document.querySelector("textarea");
+var exit = false;
+try{
+area.value = atob(input.value);
+}
+catch(err){
+exit=true;
+area.value = "";
+trans(area, 2);
+errElem.value = err;
+}
+if(!exit)trans(area, 2);
+}
+
+function htmlEntityToText(input){
+const area = document.querySelector("textarea");
+if(!input.value){
+area.value = "";
+trans(area, 7);
+return;
+}
+const chars = input.value.slice(0, input.value.length-1).replaceAll("&#","").split(";");
+var out = "";
+for(let x of chars){
+out += String.fromCharCode(x);
+}
+area.value = out;
+trans(area, 3);
+}
+
+function binaryToText(input){
+const area = document.querySelector("textarea");
+if(!input.value){
+area.value = "";
+trans(area, 4);
+return;
+}
+const chars = input.value.split(" ");
+var out = "";
+for(let x of chars){
+out += String.fromCharCode(parseInt(x,2));
+}
+area.value = out;
+trans(area, 4);
+}
+
+function octToText(input){
+const area = document.querySelector("textarea");
+if(!input.value){
+area.value = "";
+trans(area, 5);
+return;
+}
+const chars = input.value.split(" ");
+var out = "";
+for(let x of chars){
+out += String.fromCharCode(parseInt(x,8));
+}
+area.value = out;
+trans(area, 5);
+}
+
+function decToText(input){
+const area = document.querySelector("textarea");
+if(!input.value){
+area.value = "";
+trans(area, 6);
+return;
+}
+const chars = input.value.split(" ");
+var out = "";
+for(let x of chars){
+out += String.fromCharCode(x);
+}
+area.value = out;
+trans(area, 6);
+}
+
+function hexToText(input){
+const area = document.querySelector("textarea");
+if(!input.value){
+area.value = "";
+trans(area, 7);
+return;
+}
+const chars = input.value.split(" ");
+var out = "";
+for(let x of chars){
+out += String.fromCharCode(parseInt(x,16));
+}
+area.value = out;
+trans(area, 7);
+}
+
+function imageToText(input){
+const reader = new FileReader();
+const img = new Image();
+const c = document.querySelector("canvas");
+const ctx = c.getContext("2d");
+reader.onload = ()=>{
+img.src = reader.result;
+}
+img.onload = ()=>{
+c.width = img.width;
+c.height = img.height;
+ctx.drawImage(img, 0, 0, c.width, c.height);
+const imgDat = ctx.getImageData(0, 0, c.width, c.height);
+document.querySelector("#special").value = JSON.stringify(imgDat);
+}
+reader.readAsDataURL(input.files[0]);
+}
+
+function trimChar(char){
+
+}
+
+function downloadPic(){
+const c = document.querySelector("canvas");
+const a = document.createElement("a");
+a.href = c.toDataURL();
+a.download = Math.random();
+a.style.display="none";
+document.body.appendChild(a);
+a.click();
+document.body.removeChild(a)
+}
+</script>
+  </head>
+  <body>
+<textarea oninput="trans(this)" placeholder="plain text" style="margin: 10px 5px 5px 5px"></textarea>
+<textarea oninput="unicodeToText(this)" placeholder="unicode"></textarea>
+<textarea oninput="base64ToText(this)" placeholder="base64"></textarea>
+<textarea oninput="htmlEntityToText(this)" placeholder="html entity"></textarea>
+<textarea oninput="binaryToText(this)" placeholder="binary"></textarea>
+<textarea oninput="octToText(this)" placeholder="octal"></textarea>
+<textarea oninput="decToText(this)" placeholder="decimal"></textarea>
+<textarea oninput="hexToText(this)" placeholder="hex"></textarea>
+<label>
+<div>Image</div>
+<br>
+<button onclick="document.querySelector('input[type=file]').click()">Upload</button>
+<input type="file" id="upload" style="display: none" onchange="imageToText(this)">
+<br>
+<button onclick="downloadPic()">Download</button>
+</label>
+<canvas>Your Browser doesn't support HTML5 Canvas</canvas>
+<textarea disabled="true" placeholder="Error / Debug Output" id="special"></textarea>
+  </body>
+</html>
