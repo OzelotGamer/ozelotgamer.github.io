@@ -7,7 +7,6 @@
     <script>
         if(location.search){
             location.href = atob(location.search.split("?")[1]);
-            alert(location.search.split("?")[1])
         }
     </script>
     <style>
@@ -17,3 +16,4 @@
     <input type="text" placeholder="Enter URL" oninput="navigator.clipboard.writeText(btoa(this.value))"/>
 </body>
 </html>
+
