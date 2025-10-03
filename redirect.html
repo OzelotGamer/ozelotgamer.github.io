@@ -6,7 +6,7 @@
     <title>Redirect</title>
     <script>
         if(location.search){
-            window.open(atob(location.search.split("?")[1]), "_self");
+            window.open(atob(location.search.split("?")[1]), "_blank");
         }
     </script>
     <style>
@@ -16,5 +16,6 @@
     <input type="text" placeholder="Enter URL" oninput="navigator.clipboard.writeText(btoa(this.value))"/>
 </body>
 </html>
+
 
 
