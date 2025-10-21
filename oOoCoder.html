@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Lol</title>
+  <meta charset="UTF-8">
+  <meta name="google" content="notranslate">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+body{
+background-color: #1c1c1e;
+color: #cccccc;
+user-select: none;
+margin: 0;
+padding: 0;
+overflow-x: none;
+}
+
+h1, h2{
+text-align: center;
+}
+
+textarea{
+resize: none;
+font-size: 15px;
+font-family: monospace;
+width: 95vw;
+margin: 0vw 2.5vw 0vw 2.5vw;
+background-color: #2c2c33;
+color: #ffffff;
+padding: 4px 6px;
+outline: none;
+box-sizing: border-box;
+line-height: 1.5;
+overflow: hidden;
+border-color: #334;
+border-width: 1px;
+}
+
+textarea:focus {
+  border-color: #446;
+}
+
+button{
+font-size: 15px;
+width: 95vw;
+margin: 2.5vw 2.5vw 2.5vw 2.5vw;
+background-color: #2c2c33;
+color: #ffffff;
+border-width: 1px;
+border-style: solid;
+}
+
+label{
+font-size: 15px;
+width: 95vw;
+margin: 2.5vw 2.5vw 0vw 2.5vw;
+}
+    </style>
+    <script>
+const bfreg = /[><\[\]\-\+.,]/g;
+const charreg = /[a-z]/gi;
+var bf = 0;
+var chars = 0;
+
+function resize(){
+const tas = document.querySelectorAll("textarea");
+const ss = document.querySelectorAll("span");
+
+bf = (tas[0].value.match(bfreg) || []).length;
+chars = (tas[1].value.match(charreg) || []).length;
+
+ss[0].innerHTML = bf;
+ss[1].innerHTML = chars + (chars > 0 ? "/" + bf * 3:"");
+for(let x of tas){
+x.style.height = "0";
+x.style.height = x.scrollHeight + "px";
+}
+}
+
+document.addEventListener("DOMContentLoaded",()=>{
+resize();
+});
+
+const code = [[">","<","[","]","-","+",".",","],["ooo","ooO","oOo","oOO","Ooo","OoO","OOo","OOO"]];
+
+function trans(){
+const tas = document.querySelectorAll("textarea");
+tas[2].value = "";
+
+const bftext = tas[0].value.match(bfreg) || [];
+var ocode = "";
+var text = tas[1].value;
+
+for(let x of bftext) ocode += code[1][code[0].indexOf(x)];
+
+if(chars == 0){
+tas[2].value = ocode;
+}
+else if(bf * 3 == chars){
+var index = 0;
+for(let i = 0; i < text.length; i++){
+const ch = text[i];
+if(/[a-z]/i.test(ch)){
+
+const l = /[a-z]/.test(ocode[index]);
+tas[2].value += l ? ch.toLowerCase() : ch.toUpperCase();
+console.log(ocode, l);
+index++;
+}
+
+else tas[2].value += ch;
+}
+
+}
+else{
+tas[2].value = "To convert brainfuck into oOo combined with a self-written text the amount of oOo codeable characters has to be 3 times the amount of brainfuck characters. Or in this case you have to have " + bf * 3 + " oOo codable characters.";
+}
+resize();
+}
+</script>
+  </head>
+  <body>
+   <h1><u>oOo Coder</u></h1>
+   <h2>Turn your brainfuck code into oOo code, and combine it with your own Text</h2>
+<label><span>0</span> brainfuck characters</label>
+<textarea spellcheck="false" autocapitalize="none" autocorrect="off" placeholder="brainfuck code" oninput="resize()"></textarea>
+<label><span>0</span> oOo codeable characters</label>
+<textarea spellcheck="false" autocapitalize="none" autocorrect="off" placeholder="your text (optional)" oninput="resize()"></textarea>
+<button onclick="trans()">Make oOo Code</button>
+<textarea spellcheck="false" autocapitalize="none" autocorrect="off" placeholder="oOo output" oninput="resize()"></textarea>
+  </body>
+</html>
