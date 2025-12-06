@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+<!--
+<script src="https://cdn.jsdelivr.net/npm/eruda"></script>
+<script>eruda.init();</script>
+-->
+    <title>EncodeDecode</title>
+  <meta charset="UTF-8">
+  <meta name="google" content="notranslate">
+<link rel="stylesheet" href="base.css">
+  <meta name="viewport" content="width=device-width, interactive-widget=none, initial-scale=1.0, user-scaleable=none">
+    <style>
+body{
+margin: 0;
+padding: 0;
+display: grid;
+grid-template-columns: auto;
+}
+
+textarea{
+resize: none;
+width: 90%;
+height: 5%;
+margin: 4%;
+display: box;
+}
+    </style>
+    <script>
+function resize(){
+const tas = document.querySelectorAll("textarea");
+
+for(let x of tas){
+x.style.height = "0";
+x.style.height = x.scrollHeight + "px";
+}
+}
+
+document.addEventListener("DOMContentLoaded",()=>{
+resize();
+});
+</script>
+  </head>
+  <body>
+<textarea oninput="document.querySelectorAll('textarea')[1].innerHTML = btoa(this.value); resize()" placeholder="encoded text here"></textarea>
+<textarea oninput="resize()"></textarea>
+  </body>
+</html>
