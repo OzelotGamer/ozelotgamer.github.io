@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Lol</title>
+  <meta charset="UTF-8">
+  <meta name="google" content="notranslate">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+.sb{
+background-color: #401080;
+border: .25rem solid #200040;
+border-radius: 1rem;
+color: #edf;
+width: fit-content;
+padding: .5rem;
+transition: 2s;
+transform: translate(-125%, 0%);
+}
+.sb:after {
+content: '';
+position: absolute;
+bottom: -.95rem;
+right: 1rem;
+border-left: 1rem solid transparent;
+border-right: 1rem solid transparent;
+border-top: 1rem solid #401080;
+}
+.sb:before {
+content: '';
+position: absolute;
+bottom: -1.35rem;
+right: .75rem;
+border-left: 1.25rem solid transparent;
+border-right: 1.25rem solid transparent;
+border-top: 1.25rem solid #200040;
+}
+    </style>
+    <script>
+document.addEventListener("DOMContentLoaded",()=>{
+setTimeout(()=>{
+document.querySelector(".sb").style.transform = "translate(0%, 0%)";
+},500)
+});
+</script>
+  </head>
+  <body>
+<div class="sb">This is a test message, also vulpes_hex is a silly femboy :3</div>
+  </body>
+</html>
