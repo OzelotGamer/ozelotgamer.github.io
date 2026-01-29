@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>French</title>
+    <meta charset="UTF-8">
+    <meta name="google" content="notranslate">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        html{
+            background-color: #0c040c;
+        }
+        /*Default Settings*/
+        :root {
+            font-size: 2.5vmax;
+            --sb-bg-color: #401080;
+            --sb-border-color: #200040;
+            --sb-speed: 2s;
+            --sb-text-color: #edf;
+            overflow: hidden;
+        }
+
+        /*Speechbubble main body*/
+        .sb {
+            position: relative;
+            background-color: var(--sb-bg-color);
+            border: .25rem solid var(--sb-border-color);
+            border-radius: 1rem;
+            color: var(--sb-text-color);
+            width: fit-content;
+            min-width: 1.5rem;
+            padding: .5rem 1.5rem;
+            transform: translate(0%, 0%);
+            max-width: 50%;
+            margin: .25rem;
+            transition: all 2s;
+        }
+
+        /*Speechbubble bg triangle*/
+        .left:after {
+            content: '';
+            position: absolute;
+            bottom: -.95rem;
+            left: 1rem;
+            border-left: 1rem solid transparent;
+            border-right: 1rem solid transparent;
+            border-top: 1rem solid var(--sb-bg-color);
+            transform: skewX(-60deg);
+        }
+
+        /*Speechbubble border triangle*/
+        .left:before {
+            content: '';
+            position: absolute;
+            bottom: -1.35rem;
+            left: .5rem;
+            border-left: 1.25rem solid transparent;
+            border-right: 1.25rem solid transparent;
+            border-top: 1.25rem solid var(--sb-border-color);
+            transform: skewX(-60deg);
+        }
+
+        .right{
+            position: relative;
+            left: 100%;
+            transform: translate(calc(-100% - .5rem),0%);
+            &::before{
+                content: '';
+                position: absolute;
+                bottom: -1.35rem;
+                right: .5rem;
+                border-left: 1.25rem solid transparent;
+                border-right: 1.25rem solid transparent;
+                border-top: 1.25rem solid var(--sb-border-color);
+                transform: skewX(60deg);
+            }
+            &::after{
+                content: '';
+                position: absolute;
+                bottom: -.95rem;
+                right: 1rem;
+                border-left: 1rem solid transparent;
+                border-right: 1rem solid transparent;
+                border-top: 1rem solid var(--sb-bg-color);
+                transform: skewX(60deg);
+            }
+        }
+
+        .middle{
+            position: relative;
+            left: 50%;
+            transform: translate(calc(-50% - .25rem),0%);
+            transition: 1s all;
+            cursor: pointer;
+            user-select: none;
+            &:hover{
+                filter: hue-rotate(60deg);
+                transform: translate(calc(-50% - .25rem),0%) scale(1.1);
+            }
+            &:active{
+                filter: hue-rotate(-120deg);
+                transform: translate(calc(-50% - .25rem),0%) scale(1.25);
+                transition: .05s all;
+            }
+        }
+    </style>
+    <script>
+        var index = 0;
+        const vocs = [
+            ["Bonjour!",["Guten Tag!","Guten Morgen!"]],
+            ["et","und"],
+            ["Bienvienue (à...)!","Willkommen (in...)!"],
+            ["le TGV","der TGV"],
+            ["le train","der Zug"],
+            ["la gare","der Bahnhof"],
+            ["Au revoir!","Auf Wiedersehen!"],
+            ["Salut!",["Hallo!","Tschüss!"]],
+            ["À plus!","Bis später!"],
+            ["Ça va?","Wie geht's?"],
+            ["madame","Frau"],
+            ["monsieur","Herr"],
+            ["bien","gut"],
+            ["merci","danke"],
+            ["Ça va.","Es geht mir gut."],
+            ["Et vous?",["Und Sie?","Und ihr?"]],
+            ["Bof!",["Na ja.","Ach."]],
+            ["Et toi?","Und du?"],
+            ["C'est la rentrée!","Die Schule hat begonnen!"],
+            ["C'est...",["Das ist...","Es ist..."]],
+            ["la rentrée",["der Schuljahresbeginn","der Schulbeginn"]],
+            ["mardi matin","am Dienstagmorgen"],
+            ["mardi",["Dienstag","am Dienstag"]],
+            ["à",["in","im","bei","auf","an","am"]],
+            ["l'arrêt de bus","die Bushaltestelle"],
+            ["le bus","der bus"],
+            ["être","sein"],
+            ["être en retard",["zu spät kommen","spät dran sein"]],
+            ["regarder",["nachschauen","ansehen","anschauen","betrachten"]],
+            ["sur Internet","im Internet"],
+            ["non","nein"],
+            ["La galère!","Ätzend!"],
+            ["Il y a un problème?","Gibt es ein Problem?"],
+            ["le problème","das problem"],
+            ["oui","ja"],
+            ["avec","mit"],
+            ["souvent","oft"],
+            ["ici",["hier","hierher"]],
+            ["aujourd'hui","heute"],
+            ["sur",["auf","über"]],
+            ["la ligne",["die Verkehrslinie","die Linie"]],
+            ["Mince!","Mist!"],
+            ["loin",["weit","weit weg"]],
+            ["le lycée","das Gymnasium"],
+            ["être à dix minutes à pied","zehn Minuten zu Fuß entfernt sein"],
+            ["On y va?","Gehen wir?"],
+            ["ensemble",["gemeinsam","zusammen"]],
+            ["super",["super","toll"]],
+            ["aussi","auch"],
+            ["moi","ich"],
+            ["en première","in der 11. Klasse"],
+            ["préparer",["vorbereiten","zubereiten"]],
+            ["Tu as quel âge?","Wie alt bist du?"],
+            ["l'âge","das Alter"],
+            ["J'ai 18 ans.",["Ich bin 18.","Ich bin 18 Jahre alt."]],
+            ["habiter","wohnen"],
+            ["mais","aber"],
+            ["depuis","seit"],
+            ["jour","Tag"],
+            ["seulement",["nur","erst"]],
+            ["Tu viens d'où?","Woher kommst du?"],
+            [["je viens","je viens de"],["ich komme","ich komme aus"]],
+            ["où",["wo","wohin"]],
+            ["au fait","übrigens"],
+            ["je m'appelle","ich heiße"],
+            ["Tu t'appelles comment?","Wie heißt du?"],
+            ["comment?","wie?"],
+            ["Moi, c'est...",["Ich bin...","Ich heiße..."]],
+            ["Tiens, voilà...!",["Schau mal, da ist...!","Schau mal, da sind...!"]],
+            ["dans",["in","im"]],
+            [["le même","la même"],["derselbe","dieselbe","dasselbe","der gleiche","die gleiche","das gleiche"]],
+            ["la classe","die Klasse"],
+            ["alors","also"],
+            ["déjà","schon"],
+            ["le bâtiment","das Gebäude"],
+            ["O.K.",["o.k.","in Ordnung"]],
+            [["de","d'"],"von"],
+            ["la onzième","die Elfte"],
+            [["le bac","le baccalauréat"],"das Abi"],
+            ["le bac proffessionnel","das Fachabitur"],
+            ["technologique","technisch"],
+            ["une heure",["eine Stunde","ein Uhr"]],
+            ["un stage",["ein Praktikum","ein Kurs","ein Camp"]],
+            ["raconter","erzählen"],
+            ["mercredi soir","am mittwochabend"],
+            ["mercredi",["Mittwoch","am Mittwoch"]],
+            ["être","sein"],
+            ["un café","ein Café"],
+            ["discuter","sich unterhalten"],
+            ["il y a","es gibt"],
+            ["un tuteur","ein Tutor"],["une tutrice","eine Tutorin"],
+            ["un élève","ein Schüler"],["une élève","eine Schülerin"],
+            ["aider","jdm. helfen"],
+            ["C'est qui?","Wer ist das?"],
+            ["il s'appelle","er heißt"],
+            ["quoi?","was?"],
+            ["une blague",["ein Scherz","ein Witz"]],
+            ["demain","morgen"],
+            ["un cousin","ein Cousin"],
+            ["une cousine","eine Cousine"],
+            ["sympa","nett"],
+            ["un collègue","ein Kollege"],["une collègue","eine Kollegin"],
+            ["un peu",["ein bisschen","etwas"]],
+            ["cool","cool"],
+            ["une semaine","eine Woche"],
+            ["avant",["vor","vorher","zuvor"]],
+            ["commencer",["anfangen","beginnen"]],
+            ["l'accueil","der Empfang"],
+            ["une entreprise",["ein Betrieb","eine Firma","ein Unternehmen"]],
+            ["J'ai rendez-vous avec...","Ich habe eine Verabredung mit..."],
+            ["un rendez-vous",["eine Verabredung","ein Termin"]],
+            ["un réceptionniste","ein Empfangschef"],["une réceptionniste","eine Empfangschefin"],
+            ["Vous pouvez épeler?","Können Sie das buchstabieren?"],
+            ["s'il vous plait","bitte"],
+            ["un téléphone","ein Telefon"],
+            ["sonner","klingeln"],
+            ["un instant",["ein Moment","ein Augenblick"]],
+            ["Excusez-moi.",["Entschuldigen Sie.","Entschuldigung."]],
+            ["téléphoner à",["mit jdm. telefonieren","jdn. anrufen"]],
+            ["un directeur",["ein Direktor","ein Leiter"]],["une directrice",["eine Direktorin","eine Leiterin"]],
+            ["quelqu'un",["jemand","jemanden","jemandem"]],
+            ["pour",["für","um zu"]],
+            ["Vous vous appelez comment?","Wie heißen Sie?"],
+            ["très bien","sehr gut"],
+            ["arriver",["kommen","ankommen"]],
+            ["encore",["noch","noch einmal","immer","immernoch"]],
+            ["en ce moment",["zurzeit","gerade","im Moment"]],
+            ["Suivez-moi.","Folgen Sie mir."],
+            ["entrer",["eintreten","betreten","hereinkommen"]],
+            ["un bureau","ein Büro"],["des bureaux","Büros"],
+            ["un contrat","ein Vertrag"],
+            ["vérifier",["überprüfen","kontrollieren"]],
+            ["les coordonnées","die Kontaktdaten"],
+            ["signer","unterschreiben"],
+            ["le nom","der Name"],
+            ["le prénom","der Vorname"],
+            ["le numéro de téléphone","die Telefonnummer"],
+            ["une adresse","eine Adresse"],
+            [["un e-mail","un mail"],"eine E-Mail"],
+            ["C'est bon.","Das ist gut."],
+            ["maintenant","jetzt"],
+            ["visiter","besichtigen"],
+            ["Je vous présente...",["Ich stelle Ihnen...vor.","Darf ich Ihnen...vorstellen?"]],
+            ["une équipe",["ein Team","eine Mannschaft"]],
+            ["retourner","zurückkehren"],["retourner à",["zurückkehren zu","zurückkehren nach"]],
+            ["Qui?",["Wer?","Wen?","Wem?"]],
+            [["l'office de tourisme","l'office du tourisme"],"die Touristeninformation"],
+            ["un parc","ein Park"],
+            ["une place","ein Platz"],
+            ["l'hôtel de ville","das Rathaus"],
+            ["un musée","ein Museum"],
+            ["les puces","der Flohmarkt"],
+            ["Qu'est-ce que tu fais?","Was machst du?"],
+            ["je vais",["ich gehe","ich fahre"]],
+            [["à la","à l'","au","aux"],["nach","zu","in"]],
+            ["chez",["bei","zu"]],
+            ["vendredi","Freitag"],
+            ["après les cours","nach der Schule"],
+            ["après",["nach","danach"]],
+            ["un cours",["ein Kurs","eine Unterrichtsstunde"]],
+            ["aller",["gehen","fahren"]],
+            ["y aller",["gehen","fahren","dorthin gehen","dorthin fahren"]],
+            ["un appartement","eine Wohnung"],
+            ["une ville","eine Stadt"],
+            ["chercher",["jdn. suchen","etw. suchen"]],
+            ["toujours",["immer","immer noch"]],
+            ["Ouais.","Ja."],
+            ["trouver",["jdn. finden","etw. finden"]],
+            ["ne...pas","nicht"],
+            ["d'abord",["zunächst","zuerst"]],
+            ["ensuit",["danach","anschließend"]],
+            ["peut-être","vielleicht"],
+            ["un quai","eine Uferstraße"],
+            ["jusque","bis"],
+            ["en vélo",["mit dem Fahrrad","auf dem Fahrrad"]],
+            ["le vélo",["das Fahrrad","Fahrradfahren"]],
+            ["une bonne idée","eine gute idee"],
+            ["Pourquoi pas.","Warum nicht."],
+            ["pourquoi?","warum?"],
+            ["À quelle heure?","Um wie viel Uhr?"],
+            ["vers dix heures","gegen zehn Uhr"],
+            ["le matin",["am Morgen","morgens"]],
+            ["je ne peux pas","ich kann nicht"],
+            ["travailler","arbeiten"],
+            ["le père","der Vater"],
+            ["un chantier","eine Baustelle"],
+            ["l'àpres-midi",["der Nachmittag","am Nachmittag","nachmittags"]],
+            ["le foot","Fußball"],
+            ["c'est ça?",["oder?","nicht wahr?"]],
+            ["manger","essen"],
+            ["midi","Mittag"],
+            ["samedi",["Samstag","am Samstag"]],
+            ["louer",["etw. mieten","etw. vermieten"]],
+            ["la direction","die Richtung"],
+            ["un quartier",["ein Stadtviertel","ein Viertel"]],
+            ["adorer",["jdn. sehr gern mögen","etw. sehr gern mögen"]],
+            ["aimer",["jdn. lieben","etw. lieben","jdn. mögen","etw. mögen"]],
+            ["beaucoup",["viel","viele","sehr"]],["beaucoup de",["viel","viele"]],
+            ["rester","bleiben"],
+            ["côté Saône","auf der Saône-Seite"],
+            ["retrouver","jdn. treffen"],
+            ["le déjeuner","das Mittagessen"],
+            ["On fait quelque chose ensemble?","Machen wir was zusammen?"],
+            ["ce soir","heute Abend"],
+            ["si",["wenn","falls"]],
+            [["mort","morte"],["tot","kaputt"]],
+            ["j'ai","ich habe"],
+            ["à midi",["um zwölf Uhr mittags","zum Mittagessen"]],
+            ["le soir",["abends","am Abend"]],
+            ["à côté",["daneben","nebenan"]],
+            ["un restaurant","ein Restaurant"],
+            ["Il est quelle heure?","Wie viel Uhr ist es?"],
+            ["minuit","Mitternacht"],
+            ["...et quart","Viertel nach..."],
+            ["...et demie","halb..."],
+            ["...moins le quart","Viertel vor..."],
+            ["moins","vor"],
+            ["un emploi du temps","ein Stundenplan"],
+            ["lundi",["Montag","am Montag"]],
+            ["un cinéma","ein Kino"],
+            ["un club de fitness","ein Fitnessstudio"],
+            ["un match de foot","ein Fußballspiel"],
+            ["une soirée","ein Abend"],
+            [["ce","cet","cette","ces"],["dieser","diese","dieses"]],
+            ["le week-end",["das Wochenende","am Wochenende"]],
+            ["C'est dommage.","Das ist schade."],["dommage.","schade."],
+            ["un programme","ein Programm"],
+            ["une visite","eine Besichtigung"],
+            ["rentrer","nach Hause gehen"],
+            ["à la maison",["zu Hause","nach Hause"]],
+            ["une maison","ein Haus"],
+            ["un kilomètre","ein Kilometer"],
+            ["le métro",["die Metro","die U-Bahn"]],
+            ["avoir","haben"],
+            ["chatter","chatten"],
+            ["organiser","organisieren"],
+            ["Qu'est-ce qu'on fait?",["Was machen wir?","Was tuen wir?"]],
+            ["Qu'est-ce qu'il y a?",["Was ist los?","Was gibt es?"]],
+            ["un concert","ein Konzert"],
+            ["le rap","Rap"],
+            ["préférer",["bevorzugen","lieber mögen"]],
+            ["l'électro","die Elektro-Musik"],
+            ["ou","oder"],
+            [["un euro","des euros"],["ein Euro","Euro"]],
+            ["avoir raison","recht haben"],
+            ["l'argent","das Geld"],
+            ["Attends.","Warte mal."],
+            [["dernier","dernière"],["letzter","letzte","letztes"]],
+            ["le bowling","Bowling"],
+            ["C'est cher.","Es ist teuer."],
+            ["une rue","eine Straße"],
+            ["ta voiture","dein Auto"],
+            ["une voiture","ein Auto"],
+            ["sinon",["sonst","andernfalls"]],
+            ["une station",["eine Haltestelle","eine Station"]],
+            ["réserver","reservieren"],
+            ["on prend",["wir nehmen","wir trinken"]],
+            ["l'apéro","der Aperitif"],
+            ["chez moi",["bei mir","zu mir"]],
+            ["commander","bestellen"],
+            ["une pizza","eine Pizza"],
+            ["J'ai hyper faim.","Ich habe einen Riesenhunger."],
+            ["avoir faim","Hunger haben"],
+            ["Rendez-vous...","Wir treffen uns..."],
+            ["un code","ein Code"],
+            ["rencontrer",["jdn. zufällig treffen","jdn. treffen","jdm. begegnen"]],
+            ["Je te présente...","Ich möchte dir...vorstellen."],
+            ["Qu'est-ce que vous faites?","Was macht ihr?"],
+            ["avec nous","mit uns"],
+            [["je suis désolé","désolé","désolée"],"es tut mir leid"],
+            ["un groupe",["eine Gruppe","eine Band"]],
+            [["génial","géniale"],["super","genial","großartig"]],
+            ["un texte","ein Text"],
+            ["Ça vous dit?","Habt ihr Lust?"],
+            ["C'est combien, l'entrée?","Wie viel kostet der Eintritt?"],
+            ["C'est gratuit.",["Es ist kostenlos.","Es ist gratis."]],
+            ["Je m'en fous.","Mir ist es egal."],
+            ["Bien sûr.",["Natürlich.","Na klar."]],
+            ["d'accord",["o.k.","einverstanden"]],
+            ["C'est parti!","Los geht's!"],
+            ["avoir rendez-vous",["sich treffen","eine Verabredung haben"]],["avoir rendez-vous avec",["sich mit jdm. treffen","eine Verabredung mit jdm. haben"]],
+            ["Voilà.","Hier bitte."],
+            ["Bon appétit!","Guten Appetit!"],
+            [["bon","bonne"],"gut"],
+            ["je voudrais...",["ich möchte","ich möchte gern"]],
+            ["Ça coûte combien?","Wie viel kostet das?"],
+            ["ça","das"],
+            ["coûter","kosten"],
+            ["À quel nom?","Auf welchen Namen?"],
+            ["À quelle adresse?","An welche Adresse?"],
+            [["combien","combien de"],["wie viel","wie viele"]],
+            ["une personne","eine Person"],
+            ["C'est noté.","Ich hab's notiert."],
+            ["par","pro"],
+            ["un film","ein Film"],
+            ["un menu",["ein Menü","eine Speisekarte"]],
+            ["dans la rue","auf der Straße"],
+            ["une destination",["ein Ziel","ein Bestimmungsort"]],
+            ["les vacances",["die Ferien","der Urlaub"]],
+            ["trop bien","voll gut"],
+            ["le printemps","der Frühling"],
+            ["la mer","das Meer"],
+            ["l'escalade","Klettern"],
+            ["maman",["Mama","Mami"]],
+            ["gagner","gewinnen"],
+            ["mamie",["Oma","Omi"]],
+            ["l'équitation","Reiten"],
+            ["une plage","ein Strand"],
+            ["un message",["eine Nachricht","eine Mitteilung"]],
+            ["un portable","ein Handy"],
+            ["il fait","er macht"],["elle fait","sie macht"],
+            ["la randonnée","Wandern"],
+            ["le kitesurf","Kitesurfen"],
+            ["je fais","ich mache"],
+            ["on fait","wir machen"],
+            ["le canoë",["Kanufahren","das Kanu"]],
+            ["le ski",["Skifahren","der Ski"]],
+            ["le VTT",["Mountainbiken","das Mountainbike"]],
+            ["le surf",["Snowboarden","Surfen","Wellenreiten"]],
+            ["le kayak",["Kajakfahren","der Kajak"]],
+            ["le ping-pong","Tischtennis"],
+            ["la plongée","Tauchen"],
+            ["la musculation","Krafttraining"],
+            ["une montagne","ein Berg"],
+            ["en Allemagne","in Deutschland"],
+            ["Il fait beau.",["Es ist schön.","Das Wetter ist schön."]],
+            ["Il fait chaud.",["Es ist warm.","Es ist heiß."]],
+            ["Il fait froid.","Es ist kalt."],
+            ["Il pleut.","Es regnet."],
+            ["Il neige.","Es schneit."],
+            ["janvier","Januar"],
+            ["l'été","der Sommer"],
+            ["quand",["wann","als"]],
+            ["enfin",["endlich","schließlich"]],
+            [["mon","ma","mes"],["mein","meine"]],
+            ["un frère","ein Bruder"],
+            [["son","sa","ses"],["sein","seine","ihr","ihre"]],
+            ["un copain","ein Freund"],["une copine","eine Freundin"],
+            [["ton","ta","tes"],["dein","deine"]],
+            ["un mois","ein Monat"],
+            ["partir",["weggehen","abfahren"]],
+            ["le temps","die Zeit"],
+            ["là-bas",["dort","dort hin","da","da hin"]],
+            ["deuxième",["zweiter","zweite","zweites"]],
+            ["faire",["machen","tun"]],
+            ["un oncle","ein Onkel"],
+            ["la danse",["Tanzen","der Tanz"]],
+            [["premier","première"],["erser","erste","erstes"]],
+            ["les grands-parents","die Großeltern"],
+            ["les parents","die Eltern"],
+            ["le grand-père",["der Großvater","der Opa"]],
+            ["la grand-mère",["die Großmutter","die Oma"]],
+            ["un garçon","ein Junge"],
+            ["Je ne sais pas.",["Keine Ahnung.","Ich weiß es nicht.","Ich weiß nicht."]],
+            ["quelques",["einige","wenige"]],
+            ["une tante","eine Tante"],
+            ["loger","wohnen"],
+            ["une auberge de jeunesse","eine Jugendherberge"],
+            ["Tu veux venir?",["Möchtest du mitkommen?","Möchtest du kommen?"]],
+            ["trop",["zu","zu viel"]],
+            ["essayer de faire","versuchen, etw. zu tun"],
+            ["un truc",["ein Ding","eine Sache"]],
+            ["une date","ein Datum"],
+            ["la mère","die Mutter"],
+            ["vouloir","wollen"],
+            ["au moins",["mindestens","wenigstens"]],
+            ["vraiment","wirklich"],
+            ["possible","möglich"],
+            ["en tout cas",["jedenfalls","auf jeden Fall"]],
+            ["être en congé",["frei haben","Urlaub haben"]],
+            ["troisième",["dritter","dritte","drittes"]],
+            ["libre","frei"],
+            ["ce serait","das wäre"],
+            ["j'aimerais bien","ich würde gern"],["j'aimerais bien faire","ich würde gern etw. tun"],
+            ["on peut",["man kann","wir können"]],
+            ["quand?","wann?"],
+            ["exactement","genau"],
+            ["de...à","von...bis"],
+            ["avoir envie de faire","Lust haben, etw. zu tun"],
+            ["le sport",["Sport","der Sport","die Sportart"]],
+            ["un jeune","ein Jugendlicher"],["une jeune","eine Jugendliche"],
+            ["la natation","Schwimmen"],
+            ["le handball","Handball"],
+            ["le rugby","Rugby"],
+            ["le basket","Basketball"],
+            ["la voile",["Segeln","das Segel"]],
+            ["un ami","ein Freund"],["une amie","eine Freundin"],
+            ["une sœur","eine Schwester"],
+            ["Ce sont...",["Das sind...","Da sind..."]],
+            ["là",["da","dort"]],
+            ["on pourrait",["man könnte","wir könnten"]],
+            ["bientôt","balt"],
+            [["préféré","préférée"],["bevorzugt","Lieblings-"]],
+            ["un Français","ein Franzose"],["une Française","eine Französin"],
+            ["une position",["eine Position","eine Stellung"]],
+            ["une femme","eine Frau"],
+            ["un homme","ein mann"],
+            [["leur","leurs"],["ihr","ihre"]],
+            ["un voyage","eine Reise"],
+            ["pouvoir","können"],
+            ["un logement","eine Unterkunft"],
+            ["un camping","ein Campingplatz"],
+            ["le camping","Campen"],
+            ["Ce n'est pas mon truc.","Das ist nicht mein Ding."],
+            ["une chambre d'hôtel","ein Hotelzimmer"],
+            ["hors de prix","unbezahlbar"],
+            ["un gîte","eine Ferienunterkunft"],
+            [["notre","nos"],["unser","unsere"]],
+            [["votre","vos"],["euer","eure","ihr","ihre"]],
+            ["le budget","das Budget"],
+            ["une possibilité","eine Möglichkeit"],
+            ["un site (Internet)","eine Webseite"],
+            ["un adulte","ein Erwachsener"],["une adulte","eine Erwachsene"],
+            ["de la place","Platz"],
+            ["Ça fait...",["Das macht...","Das kostet..."]],
+            ["moins","weniger"],
+            ["le tarif",["der Preis","der Tarif"]],
+            ["la nuit","die Nacht"],
+            ["du coup",["darum","aus diesem Grund"]],
+            ["s'il te plait","bitte"],
+            ["Ça suffit!","Das reicht!"],
+            ["en fait",["im Grunde genommen","eigentlich"]],
+            ["le matériel",["das Equipment","die Ausrüstung"]],
+            ["Ne t'inquiète pas.","Mach dir keine Sorgen."],
+            ["tout","alles"],
+            ["une tente","ein Zelt"],
+            ["une table","ein Tisch"],
+            ["une chaise","ein Stuhl"],
+            [["parfait","parfaite"],"perfekt"]
+        ];
+        
+        function pickRandomVocab(){
+            index = Math.floor(Math.random() * vocs.length);
+            document.querySelector(".left").innerHTML = typeof vocs[index][0] == "object"?vocs[index][0][Math.floor(Math.random() * vocs[index][0].length)]:vocs[index][0];
+            document.querySelector(".middle").onclick = ()=> {
+                check()
+            };
+        }
+
+        function check(){
+            const answer = document.querySelector(".right").innerHTML.trim();
+            const out = document.querySelectorAll(".left")[1];
+            out.style.transform = "translate(0%,0%)";
+            if(!answer){
+                out.innerHTML = "Keine Eingabe gefunden.";
+                return;
+            }
+            const infoString = `${typeof vocs[index][0] == "object"?oder(vocs[index][0]):'"'+vocs[index][0]+'"'} wird als ${typeof vocs[index][1] =="object"?oder(vocs[index][1]):'"'+vocs[index][1]+'"'} übersetzt.`;
+            if(typeof vocs[index][1] == "object"?vocs[index][1].includes(answer):vocs[index][1] == answer){
+                out.innerHTML = "Korrekt, "+infoString;
+            }
+            else{
+                out.innerHTML = "Falsch, "+infoString;
+            }
+            document.querySelector(".middle").onclick = ()=> {
+                next();
+            };
+        }
+
+        function oder(arr){
+            return [arr.slice(0, -1).map(voc =>`"${voc}"`).join(", "),'"'+arr.slice(-1)[0]+'"'].join(" oder ");
+        }
+
+        function next(){
+            document.querySelector(".right").innerHTML = "...";
+            document.querySelectorAll(".left")[1].style.transform = "translate(calc(-100% - 1rem),0%)";
+            pickRandomVocab();
+        }
+
+        document.addEventListener("DOMContentLoaded",()=>{
+            setTimeout(pickRandomVocab,500);
+        })
+    </script>
+</head>
+
+<body>
+    <div class="sb left">Lädt...</div>
+    <div class="sb right" contenteditable onclick="this.innerHTML=''">...</div>
+    <div class="sb middle">Oui!</div>
+    <div class="sb left">Gib die Übersetzung in die rechte Sprechblase ein.</div>
+</body>
+
+</html>
