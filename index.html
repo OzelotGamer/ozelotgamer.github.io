@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Lol</title>
+  <meta charset="UTF-8">
+  <meta name="google" content="notranslate">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+body{
+    padding: 0;
+    margin: 0;
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+}
+/*
+.base{
+    position: absolute;
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 50vmin;
+    width: 100vw;
+    height: 100vh;
+}
+*/
+.container{
+    display: grid;
+    grid-template-rows: 1fr 8fr 1fr;
+    width: 80vw;
+    height: 80vh;
+    grid-gap: 1vmin;/*
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(
+        -50%,
+        -50%
+    );*/
+    background-color: #000;
+    padding: 1vmin;
+    border-radius: 10vmin;
+    box-shadow: 2.5vmin 2.5vmin 5vmin 5vmin #888;
+    animation: zoomIn 2s cubic-bezier(0.16,1,0.3,1);
+    will-change: transform;
+}
+
+.head{
+    display: grid;
+    align-items: center;
+    background-image: linear-gradient(
+        to right,
+        #000,
+        #222 25%,
+        #444 50%,
+        #222 75%,
+        #000
+    );
+    font-size: 5vmin;
+    text-align: center;
+    border-radius: 10vmin;
+    margin: 1vmin;
+    color: #fff;
+    text-shadow:
+        0 0 10vmin #fff,
+        0 0 9vmin #fff,
+        0 0 8vmin #fff;
+}
+
+.body{
+    background-color: #444;
+    font-size: 4vmin;
+    border-radius: 10vmin;
+    margin: 1vmin;
+    padding: 5vmin;
+    text-shadow: 1px 1px 1vmin #000;
+    color: #fff;
+    box-shadow: 0 0 2.5vmin #fff;
+}
+
+.foot{
+    text-align: center;
+    font-size: 0;
+}
+
+.next{
+    width: 100%;
+    height: 100%;
+    border: none;
+    background-image: linear-gradient(
+        to right,
+        #000,
+        #222 12.5%,
+        #444 50%,
+        #222 87.5%,
+        #000
+    );
+    border-radius: 10vmin;
+    color: #fff;
+    font-size: 10vmin;
+    text-shadow: 1px 1px 1vmin #000,
+        -1px 1px 1vmin #000,
+        1px -1px 1vmin #000,
+        -1px -1px 1vmin #000,
+        0 0 10vmin #fff;
+}
+
+li{
+    font-weight: bold;
+}
+
+@keyframes zoomIn{
+    from{
+        transform: scale(0);
+    }
+    to{
+        transform: scale(1);
+    }
+}
+    </style>
+    <!--<script src="https://cdn.jsdelivr.net/npm/eruda"></script>
+    <script>eruda.init();</script>-->
+    <script>
+const data = [
+    {
+        head: "Die Stände des Mittelalters",
+        body: "Das Volk des Mittelalters ist in so genannte Stände unterteilt:<ul><li>Der Klerus</li><li>Der Adel</li><li>Das einfache Volk</li></ul>Die Musik der Kirche ist die <u>geistliche</u> Musik,<br>währenddessen sowohl die Musik des Adels als auch die Musik des einfachen Volkes als <u>weltliche</u> Musik bezeichnet wird."
+    },
+    {
+        head: "Musikalische Unterhaltung im Mittelalter",
+        body: "Im Mittelalter gab es zwei primäre musikalische Unterhalter,<br><br><u><b>Minnesänger</b></u><br>Minnesänger traten in Burgen auf, und waren meist vom Adel abstammend. Ihr ansehen in der Gesellschaft war weitaus besser als das der Spielleute.<br><br><u><b>Spielleute</b></u><br>Spielleute zogen durchs Land, sie sorgten für Unterhaltung und verbreiteten Nachrichten auf Jahrmärkten.<br><br>Musik wurde oft spontan gespielt oder mündlich weitergegeben, was aufgrund der fehlenden Bildung meist der einzige Weg war."
+    },
+    {
+        head: "Nachrichten von Bänkelsängern",
+        body: "<u>Bänkelsänger</u> saßen meist auf dem Marktplatz auf einer Bank, daher auch der Name.<br>Sie berichteten <u>Nachrichten</u> von fern und nah. Sie trugen die nachrichten meist in <u>reimform</u> und <u>gesungen</u> vor um es unterhaltsamer und einprägsamer zu gestalten.<br><u>Begleitet</u> wurden sie auch teils von einer <u>Drehleier</u> oder anderen Instrumenten.<br>Auch die <u>Darstellung</u> des Geschehens auf großen <u>Bildtafeln</u> war üblich."
+    },/*
+    {
+        head: "",
+        body: ""
+    },*/
+];
+
+var index = 0;
+
+function weiter(){
+    index++;
+    index %= 3;
+    const head = document.querySelector(".head");
+    const body = document.querySelector(".body");
+
+    head.innerHTML = data[index].head;
+    body.innerHTML = data[index].body;
+
+    document.querySelector(".container").animate(
+        [
+            {
+                transform: "scale(0)"
+            },
+            {
+                transform: "scale(1)"
+            }
+        ],
+        {
+            duration: 2000,
+            iterations: 1,
+            easing: "cubic-bezier(0.16,1,0.3,1)"
+        }
+    ).play();
+}
+</script>
+  </head>
+  <body>
+<div class=container>
+    <div class=head>
+        Die Stände des Mittelalters
+    </div>
+    <div class=body>
+        Das Volk des Mittelalters ist in so genannte Stände unterteilt:<ul><li>Der Klerus</li><li>Der Adel</li><li>Das einfache Volk</li></ul>Die Musik der Kirche ist die <u>geistliche</u> Musik,<br>währenddessen sowohl die Musik des Adels als auch die Musik des einfachen Volkes als <u>weltliche</u> Musik bezeichnet wird.
+    </div>
+    <div class=foot>
+        <button class=next onclick="weiter()">Weiter</button>
+    </div>
+</div>
+  </body>
+</html>
