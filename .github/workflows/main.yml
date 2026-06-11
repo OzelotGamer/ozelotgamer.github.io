@@ -32,12 +32,15 @@ jobs:
           })
           .then(x => x.text())
           .then(y => {
-            if(y.includes('code: 1005')){
+            if(y.includes('error code:')){
               throw new Error('1005');
             }
             fs.writeFileSync('myGDProfile.txt', y)
           })
-          .catch(z => console.error);
+          .catch(z => {
+            console.error(z);
+            process.exit(1);
+          });
           "
 
       - name: Commit to it :D
@@ -45,5 +48,5 @@ jobs:
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
           git add myGDProfile.txt
-          git commit -m "Update data" || echo "No changes"
+          git commit -m "Update myProfile" || echo "No changes"
           git push
