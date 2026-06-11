@@ -33,7 +33,7 @@ jobs:
           .then(x => x.text())
           .then(y => {
             if(y.includes('error code:')){
-              throw new Error('1005');
+              throw new Error('Error: ' + y);
             }
             fs.writeFileSync('myGDProfile.txt', y)
           })
