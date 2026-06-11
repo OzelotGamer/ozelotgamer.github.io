@@ -21,7 +21,7 @@ jobs:
 
           fetch('https://www.boomlings.com/database/getGJUserInfo20.php',
           {
-            method: 'PUSH',
+            method: 'POST',
             headers: {
               'User-Agent': ''
             },
