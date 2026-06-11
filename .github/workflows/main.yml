@@ -16,32 +16,7 @@ jobs:
 
       - name: Fetch Da File :P
         run: |
-          node -e "
-          const fs = require('fs');
-
-          fetch('https://www.boomlings.com/database/getGJUserInfo20.php',
-          {
-            method: 'POST',
-            headers: {
-              'User-Agent': ''
-            },
-            body: JSON.stringify({
-              secret: 'Wmfd2893gb7',
-              targetAccountId: '19635188'
-            })
-          })
-          .then(x => x.text())
-          .then(y => {
-            if(y.includes('error code:')){
-              throw new Error('Error: ' + y);
-            }
-            fs.writeFileSync('myGDProfile.txt', y)
-          })
-          .catch(z => {
-            console.error(z);
-            process.exit(1);
-          });
-          "
+          node -e " const fs = require('fs'); fetch('https://www.boomlings.com/database/getGJUserInfo20.php', { method: 'POST', headers: { 'User-Agent': '' }, body: new URLSearchParams('secret=Wmfd2893gb7&targetAccountID=19635188') }) .then(x => x.text()) .then(y => { if(y.includes('error code:')){ throw new Error('Error: ' + y); } fs.writeFileSync('myGDProfile.txt', y) }) .catch(z => { console.error(z); process.exit(1); }); "
 
       - name: Commit to it :D
         run: |
