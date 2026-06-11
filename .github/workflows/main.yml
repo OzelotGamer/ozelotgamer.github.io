@@ -10,13 +10,10 @@ jobs:
       contents: write
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '18'
 
       - name: Fetch Da File :P
         run: |
-          node -e " const fs = require('fs'); fetch('https://www.boomlings.com/database/getGJUserInfo20.php', { method: 'POST', headers: { 'User-Agent': '' }, body: new URLSearchParams('secret=Wmfd2893gb7&targetAccountID=19635188') }) .then(x => x.text()) .then(y => { if(y.includes('error code:')){ throw new Error('Error: ' + y); } fs.writeFileSync('myGDProfile.txt', y) }) .catch(z => { console.error(z); process.exit(1); }); "
+          curl -X POST https://www.boomlings.com/database/getGJUserInfo20.php -d "secret=Wmfd2893gb7&targetAccountID=19635188" -A "" -o myGDProfile.txt
 
       - name: Commit to it :D
         run: |
