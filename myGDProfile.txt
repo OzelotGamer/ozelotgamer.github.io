@@ -1,1 +1,1 @@
-error code: 1005
+curl -X POST https://www.boomlings.com/database/getGJUserInfo20.php -d "secret=Wmfd2893gb7&targetAccountID=19635188" -A ""
