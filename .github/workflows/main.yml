@@ -16,25 +16,24 @@ jobs:
 
       - name: Fetch Da File :P
         run: |
-          node -e '
-          const https = require("https");
-          const fs = require("fs");
+          node -e "
+          const fs = require('fs');
 
-          https.get("https://www.boomlings.com/database/getGJUserInfo20.php",
+          fetch('https://www.boomlings.com/database/getGJUserInfo20.php',
           {
-            method: "PUSH"
+            method: 'PUSH',
             headers: {
-              "User-Agent": ""
+              'User-Agent': ''
             },
             body: JSON.stringify({
-              "secret": "Wmfd2893gb7",
-              "targetUserId": "19635188"
+              secret: 'Wmfd2893gb7',
+              targetUserId: '19635188'
             })
           })
           .then(x => x.text())
           .then(y => fs.writeFileSync('myGDProfile.txt', y))
           .catch(z => console.error);
-          '
+          "
 
       - name: Commit to it :D
         run: |
