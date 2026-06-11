@@ -1,0 +1,44 @@
+name: Fetch my GD-Account
+on: 
+  schedule:
+    - cron: "0 * * * *"
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Fetch Da File :P
+        run: |
+          node -e '
+          const https = require("https");
+          const fs = require("fs");
+
+          https.get("https://www.boomlings.com/database/getGJUserInfo20.php",
+          {
+            method: "PUSH"
+            headers: {
+              "User-Agent": ""
+            },
+            body: JSON.stringify({
+              "secret": "Wmfd2893gb7",
+              "targetUserId": "19635188"
+            })
+          })
+          .then(x => x.text())
+          .then(y => fs.writeFileSync('myGDProfile.txt', y))
+          .catch(z => console.error);
+          '
+
+      - name: Commit to it :D
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add myGDProfile.txt
+          git commit -m "Update data" || echo "No changes"
+          git push
