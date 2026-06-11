@@ -31,7 +31,12 @@ jobs:
             })
           })
           .then(x => x.text())
-          .then(y => fs.writeFileSync('myGDProfile.txt', y))
+          .then(y => {
+            if(y == 'error code: 1005'){
+              throw new Error('1005');
+            }
+            fs.writeFileSync('myGDProfile.txt', y)
+          })
           .catch(z => console.error);
           "
 
