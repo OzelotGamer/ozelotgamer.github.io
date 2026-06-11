@@ -27,7 +27,7 @@ jobs:
             },
             body: JSON.stringify({
               secret: 'Wmfd2893gb7',
-              targetUserId: '19635188'
+              targetAccountId: '19635188'
             })
           })
           .then(x => x.text())
